@@ -61,7 +61,7 @@ export interface Item {
   position: number;
 }
 
-const initialStore = {
+export const InitialStore = {
   list: Array<Item>(),
   filterParams: {
     category: FILTER_VALUES[0],
@@ -69,7 +69,9 @@ const initialStore = {
   }
 };
 
-export function reducer(action: Action, previousState: typeof initialStore = initialStore) {
+export type StoreType = typeof InitialStore;
+
+export function reducer(action: Action, previousState: StoreType = InitialStore) {
   switch (action.type) {
     case ACTION_TYPES.REMOVE: {
       return {
@@ -159,7 +161,7 @@ export function changePosition(id: string, number: number, itemsList: Item[]) {
   return [...elms];
 }
 
-export function selectListByFilter(state: typeof initialStore) {
+export function selectListByFilter(state: typeof InitialStore) {
   state.list = state.list.sort((el1, el2) => el1.position - el2.position);
   switch (state.filterParams.category) {
     case FILTER_VALUES[1]:

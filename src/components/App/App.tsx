@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import './App.css';
 import { List } from '../List/List';
 import { SearchPanel, FilterArguments } from '../SearchPanel/SearchPanel';
-import { selectListByFilter, reducer } from '../../store';
+import { selectListByFilter, reducer, StoreType, InitialStore } from '../../store';
 import { CreateForm } from '../CreateForm/CreateForm';
 import { CategorySelect } from '../CategorySelect/CategorySelect';
-import { Item, Action, FILTER_VALUES } from '../../store';
+import { Action, FILTER_VALUES } from '../../store';
 
 function App() {
-  const [itemsList, setItemList] = useState<Item[]>([]);
+  const [store, setStore] = useState<StoreType>(InitialStore);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState(FILTER_VALUES[0]);
 
   function dispatch(action: Action) {
-    setItemList(
-      reducer(action, { list: itemsList, filterParams: { category, searchString: search } }).list
-    );
+    setStore(reducer(action, store));
   }
 
   function updateState(action: FilterArguments) {
@@ -43,7 +41,7 @@ function App() {
         <br />
         <List
           list={selectListByFilter({
-            list: itemsList,
+            list: store.list,
             filterParams: { category, searchString: search }
           })}
           dispatch={dispatch}
