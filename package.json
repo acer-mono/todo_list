@@ -2,6 +2,7 @@
   "name": "907sv-lab2",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://acer-mono.github.io/todo_list/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.4",
