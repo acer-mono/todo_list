@@ -7,13 +7,22 @@ import { CreateForm } from '../CreateForm/CreateForm';
 import { CategorySelect } from '../CategorySelect/CategorySelect';
 import { Action, FILTER_VALUES } from '../../store';
 
+const STORAGE_KEY = '32452345';
+
+function getInitialStore() {
+  const storage = localStorage.getItem(STORAGE_KEY);
+  return storage === null ? InitialStore : JSON.parse(storage);
+}
+
 function App() {
-  const [store, setStore] = useState<StoreType>(InitialStore);
+  const [store, setStore] = useState<StoreType>(getInitialStore());
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState(FILTER_VALUES[0]);
 
   function dispatch(action: Action) {
-    setStore(reducer(action, store));
+    const newState = reducer(action, store);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newState));
+    setStore(newState);
   }
 
   function updateState(action: FilterArguments) {
