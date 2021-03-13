@@ -24,7 +24,7 @@ interface ActionRemove {
 }
 
 interface ActionChangePosition {
-  type: ACTION_TYPES.CHANGE_POSITION;
+  type: typeof ACTION_TYPES.CHANGE_POSITION;
   payload: {
     id: string;
     number: number;
@@ -32,7 +32,7 @@ interface ActionChangePosition {
 }
 
 interface ActionChangeState {
-  type: ACTION_TYPES.CHANGE_STATE;
+  type: typeof ACTION_TYPES.CHANGE_STATE;
   payload: {
     id: string;
     isDone: boolean;
@@ -40,7 +40,7 @@ interface ActionChangeState {
 }
 
 interface ActionEdit {
-  type: ACTION_TYPES.EDIT;
+  type: typeof ACTION_TYPES.EDIT;
   payload: {
     id: string;
     name: string;
@@ -48,7 +48,7 @@ interface ActionEdit {
 }
 
 interface ActionCreate {
-  type: ACTION_TYPES.CREATE;
+  type: typeof ACTION_TYPES.CREATE;
   payload: {
     item: Item;
   };
