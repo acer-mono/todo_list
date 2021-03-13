@@ -1,0 +1,36 @@
+{
+  "files": {
+    "analytics.js": "/todo_list/static/js/analytics.a8cf336e.chunk.js",
+    "analytics.js.map": "/todo_list/static/js/analytics.a8cf336e.chunk.js.map",
+    "database.js": "/todo_list/static/js/database.161a73b7.chunk.js",
+    "database.js.map": "/todo_list/static/js/database.161a73b7.chunk.js.map",
+    "firestore.js": "/todo_list/static/js/firestore.dc07ceba.chunk.js",
+    "firestore.js.map": "/todo_list/static/js/firestore.dc07ceba.chunk.js.map",
+    "functions.js": "/todo_list/static/js/functions.2c94cd2e.chunk.js",
+    "functions.js.map": "/todo_list/static/js/functions.2c94cd2e.chunk.js.map",
+    "main.css": "/todo_list/static/css/main.70afe593.chunk.css",
+    "main.js": "/todo_list/static/js/main.0cac08ad.chunk.js",
+    "main.js.map": "/todo_list/static/js/main.0cac08ad.chunk.js.map",
+    "messaging.js": "/todo_list/static/js/messaging.0306e576.chunk.js",
+    "messaging.js.map": "/todo_list/static/js/messaging.0306e576.chunk.js.map",
+    "performance.js": "/todo_list/static/js/performance.e10acc54.chunk.js",
+    "performance.js.map": "/todo_list/static/js/performance.e10acc54.chunk.js.map",
+    "remoteConfig.js": "/todo_list/static/js/remoteConfig.056ba8d1.chunk.js",
+    "remoteConfig.js.map": "/todo_list/static/js/remoteConfig.056ba8d1.chunk.js.map",
+    "runtime-main.js": "/todo_list/static/js/runtime-main.7b4d3bbc.js",
+    "runtime-main.js.map": "/todo_list/static/js/runtime-main.7b4d3bbc.js.map",
+    "storage.js": "/todo_list/static/js/storage.148bbe32.chunk.js",
+    "storage.js.map": "/todo_list/static/js/storage.148bbe32.chunk.js.map",
+    "static/js/10.ca80fd91.chunk.js": "/todo_list/static/js/10.ca80fd91.chunk.js",
+    "static/js/10.ca80fd91.chunk.js.map": "/todo_list/static/js/10.ca80fd91.chunk.js.map",
+    "index.html": "/todo_list/index.html",
+    "static/css/main.70afe593.chunk.css.map": "/todo_list/static/css/main.70afe593.chunk.css.map",
+    "static/js/10.ca80fd91.chunk.js.LICENSE.txt": "/todo_list/static/js/10.ca80fd91.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7b4d3bbc.js",
+    "static/js/10.ca80fd91.chunk.js",
+    "static/css/main.70afe593.chunk.css",
+    "static/js/main.0cac08ad.chunk.js"
+  ]
+}
