@@ -24,7 +24,7 @@ function App() {
         if (newUser) {
           db.ref(`stores/${newUser.uid}`).on('value', snapshot => {
             const value = snapshot.val()?.store;
-            if (value === undefined) {
+            if (!value?.list) {
               setStore(InitialStore);
             } else {
               setStore(value);
