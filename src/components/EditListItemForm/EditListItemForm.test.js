@@ -10,9 +10,12 @@ const item = {
 };
 
 describe('EditListItemForm tests', () => {
-  test('form contains input with passed value and button', () => {
-    const store = makeTestStore();
+  let store;
+  beforeEach(() => {
+    store = makeTestStore();
+  });
 
+  test('form contains input with passed value and button', () => {
     testRender(<EditListItem item={item} />, { store });
     const form = screen.getByTestId('editForm');
     const input = screen.getByTestId('edit-input');
@@ -27,7 +30,6 @@ describe('EditListItemForm tests', () => {
   test('submit form with valid name', () => {
     const closeItemHandler = jest.fn();
     const field = 'some new name';
-    const store = makeTestStore();
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
     const form = screen.getByTestId('editForm');
@@ -46,7 +48,6 @@ describe('EditListItemForm tests', () => {
   test('submit form with empty name', () => {
     const closeItemHandler = jest.fn();
     const field = '';
-    const store = makeTestStore();
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
     const form = screen.getByTestId('editForm');
@@ -62,7 +63,6 @@ describe('EditListItemForm tests', () => {
   test('click on submit button', () => {
     const closeItemHandler = jest.fn();
     const field = 'some new name';
-    const store = makeTestStore();
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
 
@@ -82,7 +82,6 @@ describe('EditListItemForm tests', () => {
   test('focusOut from input', () => {
     const closeItemHandler = jest.fn();
     const field = 'some new name';
-    const store = makeTestStore();
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
 

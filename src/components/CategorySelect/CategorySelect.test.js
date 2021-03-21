@@ -7,9 +7,13 @@ import { ACTION_TYPES } from '../../store';
 const values = ['FIRST', 'SECOND'];
 
 describe('CategorySelect tests', () => {
-  test('pass option object with two elements', () => {
-    const store = makeTestStore();
+  let store;
 
+  beforeEach(() => {
+    store = makeTestStore();
+  });
+
+  test('pass option object with two elements', () => {
     testRender(<CategorySelect filterValues={values} />, { store });
 
     const elements = screen.getAllByTestId('category-option');
@@ -20,8 +24,6 @@ describe('CategorySelect tests', () => {
   });
 
   test('pass empty option object', () => {
-    const store = makeTestStore();
-
     testRender(<CategorySelect filterValues={[]} />, { store });
 
     const elements = screen.queryAllByTestId('category-option');
@@ -31,7 +33,6 @@ describe('CategorySelect tests', () => {
 
   test('change option', () => {
     const value = values[1];
-    const store = makeTestStore();
 
     testRender(<CategorySelect filterValues={values} />, { store });
 

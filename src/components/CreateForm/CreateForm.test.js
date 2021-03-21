@@ -5,9 +5,12 @@ import { ACTION_TYPES } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 describe('CreateForm tests', () => {
-  test('create item with valid name', () => {
-    const store = makeTestStore();
+  let store;
+  beforeEach(() => {
+    store = makeTestStore();
+  });
 
+  test('create item with valid name', () => {
     testRender(<CreateForm />, { store });
 
     const field = 'some text';
@@ -31,8 +34,6 @@ describe('CreateForm tests', () => {
   });
 
   test('try to create item with empty name', () => {
-    const store = makeTestStore();
-
     testRender(<CreateForm />, { store });
 
     const field = '';

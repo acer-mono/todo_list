@@ -11,16 +11,14 @@ describe('List tests', () => {
       { id: 1, name: 'hello', isDone: false, position: 11 }
     ];
     const store = makeTestStore({ initialState: { ...initialState, list } });
-    const filterItem = () => true;
-    testRender(<List filterItem={filterItem} />, { store });
+    testRender(<List />, { store });
     const elements = screen.getAllByTestId('list-item');
     expect(elements).toHaveLength(list.length);
   });
 
   test('pass empty list', () => {
-    const filterItem = () => true;
-    const store = makeTestStore({ initialState: { ...initialState } });
-    testRender(<List filterItem={filterItem} />, { store });
+    const store = makeTestStore();
+    testRender(<List />, { store });
     const elements = screen.queryAllByTestId('list-item');
     expect(elements).toHaveLength([].length);
   });
