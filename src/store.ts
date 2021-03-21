@@ -151,7 +151,7 @@ export function reducer(previousState: Store = initialState, action: Action): St
     }
 
     case ACTION_TYPES.CATEGORY_CHANGED: {
-      previousState.filterParams.searchString = action.payload.category;
+      previousState.filterParams.category = action.payload.category;
       return { ...previousState };
     }
 

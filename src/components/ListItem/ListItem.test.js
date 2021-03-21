@@ -1,7 +1,7 @@
 import { ListItem } from './ListItem';
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES, initialState } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
 
 describe('ListItemTests', () => {
@@ -39,7 +39,7 @@ describe('ListItemTests', () => {
 
   test('change position item', () => {
     const value = { id: '0', name: 'hello', isDone: false, position: 10 };
-    const store = makeTestStore();
+    const store = makeTestStore({ initialState: { ...initialState, list: [value] } });
 
     testRender(<ListItem isFirst={false} isLast={false} item={value} />, { store });
 
