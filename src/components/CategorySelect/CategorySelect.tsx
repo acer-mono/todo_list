@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { IFilterValues } from '../../store';
+import { ACTION_TYPES, IFilterValues } from '../../store';
+import { useDispatch } from 'react-redux';
 
 export interface UpdateCategoryArguments {
   name: string;
@@ -8,11 +9,11 @@ export interface UpdateCategoryArguments {
 
 interface CategorySelectProps {
   filterValues: IFilterValues;
-  updateCategory: (args: UpdateCategoryArguments) => void;
 }
 
-export const CategorySelect = ({ filterValues, updateCategory }: CategorySelectProps) => {
+export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
   const [filter, setFilter] = useState(filterValues[0]);
+  const dispatch = useDispatch();
   return (
     <select
       data-testid="select"
@@ -20,7 +21,10 @@ export const CategorySelect = ({ filterValues, updateCategory }: CategorySelectP
       value={filter}
       onChange={e => {
         setFilter(e.target.value);
-        updateCategory({ name: 'updateCategory', value: e.target.value });
+        dispatch({
+          type: ACTION_TYPES.CATEGORY_CHANGED,
+          payload: { category: e.target.value }
+        });
       }}
     >
       {filterValues.map((filterItem, index) => (

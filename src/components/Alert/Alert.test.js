@@ -27,16 +27,4 @@ describe('Alert tests', () => {
     const component = screen.queryByTestId('alert');
     expect(component).toBeNull();
   });
-
-  test('Alert is hidden after delay ', () => {
-    render(<Alert isShown={true} messages={['1']} delay={10} />);
-    const component = screen.queryByTestId('alert');
-    expect(component).toBeInTheDocument();
-    jest.useFakeTimers();
-    setTimeout(() => {
-      const component = screen.queryByTestId('alert');
-      expect(component).toBeNull();
-    }, 1500);
-    jest.runAllTimers();
-  });
 });

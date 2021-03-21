@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { ACTION_TYPES } from '../../store';
 
-export interface FilterArguments {
-  name: string;
-  value: string;
-}
-
-interface SearchPanelProps {
-  filter: (action: FilterArguments) => void;
-}
-
-export const SearchPanel = ({ filter }: SearchPanelProps) => {
+export const SearchPanel = () => {
   const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
+
   return (
     <form
       action=""
       onSubmit={e => {
         e.preventDefault();
-        filter({ name: 'updateSearch', value: search });
+        dispatch({
+          type: ACTION_TYPES.FILTER_CHANGED,
+          payload: {
+            searchString: search
+          }
+        });
       }}
     >
       <input

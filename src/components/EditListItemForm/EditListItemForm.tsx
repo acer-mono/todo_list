@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { Action, ACTION_TYPES, Item } from '../../store';
+import { ACTION_TYPES, Item } from '../../store';
+import { useDispatch } from 'react-redux';
 
 interface EditListItemFormProps {
   item: Item;
-  dispatch: (action: Action) => void;
   closeItem: () => void;
 }
 
-export const EditListItem = ({ item, dispatch, closeItem }: EditListItemFormProps) => {
+export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
   const [name, setName] = useState(item.name);
+  const dispatch = useDispatch();
   const button = useRef(null);
 
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {

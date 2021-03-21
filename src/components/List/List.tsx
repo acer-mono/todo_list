@@ -1,13 +1,10 @@
 import React from 'react';
 import { ListItem } from '../ListItem/ListItem';
-import { Item, Action } from '../../store';
+import { selectListByFilter } from '../../store';
+import { useSelector } from 'react-redux';
 
-interface ListProps {
-  list: Item[];
-  dispatch: (action: Action) => void;
-}
-
-export const List = ({ list, dispatch }: ListProps) => {
+export const List = () => {
+  const list = useSelector(selectListByFilter);
   return (
     <ul>
       {list.map((item, index) => (
@@ -16,7 +13,6 @@ export const List = ({ list, dispatch }: ListProps) => {
           item={item}
           isFirst={index === 0}
           isLast={index === list.length - 1}
-          dispatch={dispatch}
         />
       ))}
     </ul>

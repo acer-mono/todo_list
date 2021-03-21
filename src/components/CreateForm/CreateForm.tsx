@@ -1,27 +1,25 @@
 import React, { useState } from 'react';
-import { Action, ACTION_TYPES } from '../../store';
+import { ACTION_TYPES } from '../../store';
+import { useDispatch } from 'react-redux';
 
-interface CreateFormProps {
-  dispatch: (item: Action) => void;
-}
-
-export const CreateForm = ({ dispatch }: CreateFormProps) => {
-  const [item, setItem] = useState('');
+export const CreateForm = () => {
+  const [name, setName] = useState('');
   const [position, setPosition] = useState(0);
+  const dispatch = useDispatch();
 
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
 
   function validate() {
-    return item !== '';
+    return name !== '';
   }
 
   function createListItem() {
     if (validate()) {
-      const newItem = { id: uid(), name: item, isDone: false, position: position };
+      const newItem = { id: uid(), name, isDone: false, position: position };
       setPosition(position => position + 1);
-      setItem('');
+      setName('');
       dispatch({
         type: ACTION_TYPES.CREATE,
         payload: { item: newItem }
@@ -35,8 +33,8 @@ export const CreateForm = ({ dispatch }: CreateFormProps) => {
       <input
         data-testid="create-input"
         type="text"
-        value={item}
-        onChange={event => setItem(event.target.value)}
+        value={name}
+        onChange={event => setName(event.target.value)}
       />
       <button data-testid="create-button" onClick={() => createListItem()}>
         Добавить

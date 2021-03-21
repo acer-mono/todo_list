@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { EditListItem } from '../EditListItemForm/EditListItemForm';
-import { Action, ACTION_TYPES, Item } from '../../store';
+import { ACTION_TYPES, Item } from '../../store';
+import { useDispatch } from 'react-redux';
 
 interface ListItemProps {
   item: Item;
   isFirst: boolean;
   isLast: boolean;
-  dispatch: (action: Action) => void;
 }
 
-export const ListItem = ({ item, isFirst, isLast, dispatch }: ListItemProps) => {
+export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
   const isDone = { textDecoration: 'line-through' };
   const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -20,9 +21,7 @@ export const ListItem = ({ item, isFirst, isLast, dispatch }: ListItemProps) => 
           {item.name}
         </li>
       )}
-      {isEdit && (
-        <EditListItem item={item} dispatch={dispatch} closeItem={() => setIsEdit(false)} />
-      )}
+      {isEdit && <EditListItem item={item} closeItem={() => setIsEdit(false)} />}
       <input
         data-testid="item-checkbox"
         type="checkbox"

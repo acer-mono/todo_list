@@ -1,7 +1,8 @@
 import { List } from './List';
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { ACTION_TYPES } from '../../store';
+import { fireEvent, screen } from '@testing-library/react';
+import { ACTION_TYPES, initialState } from '../../store';
+import { makeTestStore, testRender } from '../../setupTests';
 
 describe('List tests', () => {
   test('pass two items', () => {
@@ -9,30 +10,32 @@ describe('List tests', () => {
       { id: 0, name: 'hello', isDone: false, position: 10 },
       { id: 1, name: 'hello', isDone: false, position: 11 }
     ];
+    const store = makeTestStore({ initialState: { ...initialState, list } });
     const filterItem = () => true;
-    render(<List filterItem={filterItem} list={list} />);
+    testRender(<List filterItem={filterItem} />, { store });
     const elements = screen.getAllByTestId('list-item');
     expect(elements).toHaveLength(list.length);
   });
 
   test('pass empty list', () => {
     const filterItem = () => true;
-    render(<List filterItem={filterItem} list={[]} />);
+    const store = makeTestStore({ initialState: { ...initialState } });
+    testRender(<List filterItem={filterItem} />, { store });
     const elements = screen.queryAllByTestId('list-item');
     expect(elements).toHaveLength([].length);
   });
 
   test('remove all items', () => {
-    const dispatchHandler = jest.fn();
     const list = [
       { id: 0, name: 'hello', isDone: false, position: 10 },
       { id: 1, name: 'hello', isDone: false, position: 11 }
     ];
-    render(<List dispatch={dispatchHandler} list={list} />);
+    const store = makeTestStore({ initialState: { ...initialState, list } });
+    testRender(<List />, { store });
     const elements = screen.getAllByTestId('remove-button');
     elements.forEach((el, index) => {
       fireEvent.click(el);
-      expect(dispatchHandler).toBeCalledWith({
+      expect(store.dispatch).toBeCalledWith({
         type: ACTION_TYPES.REMOVE,
         payload: { id: list[index].id }
       });
@@ -40,23 +43,23 @@ describe('List tests', () => {
   });
 
   test('click on checkbox of every item', () => {
-    const dispatchHandler = jest.fn();
     const list = [
       { id: 0, name: 'hello', isDone: false, position: 10 },
       { id: 1, name: 'hello', isDone: true, position: 11 }
     ];
-    render(<List dispatch={dispatchHandler} list={list} />);
+    const store = makeTestStore({ initialState: { ...initialState, list } });
+    testRender(<List />, { store });
     const elements = screen.getAllByTestId('item-checkbox');
     elements.forEach((el, index) => {
       //item show correct state of checkbox
       expect(el.getAttribute('checked')).toEqual(list[index].isDone ? '' : null);
       //click on checkbox
       fireEvent.click(el);
-      expect(dispatchHandler).toBeCalledWith({
+      expect(store.dispatch).toBeCalledWith({
         type: ACTION_TYPES.CHANGE_STATE,
         payload: {
           id: list[index].id,
-          isDone: !list[index].isDone
+          isDone: list[index].isDone
         }
       });
     });

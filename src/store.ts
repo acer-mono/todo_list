@@ -1,3 +1,5 @@
+import { createStore } from 'redux';
+
 export const FILTER_VALUES = ['All', 'Done', 'Not done'];
 export type IFilterValues = typeof FILTER_VALUES;
 
@@ -6,7 +8,9 @@ export enum ACTION_TYPES {
   CHANGE_POSITION,
   CHANGE_STATE,
   EDIT,
-  CREATE
+  CREATE,
+  FILTER_CHANGED,
+  CATEGORY_CHANGED
 }
 
 export type Action =
@@ -14,7 +18,23 @@ export type Action =
   | ActionChangePosition
   | ActionChangeState
   | ActionEdit
-  | ActionCreate;
+  | ActionCreate
+  | ActionFilterChanged
+  | ActionCategoryChanged;
+
+interface ActionFilterChanged {
+  type: typeof ACTION_TYPES.FILTER_CHANGED;
+  payload: {
+    searchString: string;
+  };
+}
+
+interface ActionCategoryChanged {
+  type: typeof ACTION_TYPES.CATEGORY_CHANGED;
+  payload: {
+    category: string;
+  };
+}
 
 interface ActionRemove {
   type: typeof ACTION_TYPES.REMOVE;
@@ -61,17 +81,23 @@ export interface Item {
   position: number;
 }
 
-export const InitialStore = {
-  list: Array<Item>(),
+export type Store = {
+  list: Item[];
+  filterParams: {
+    category: string;
+    searchString: string;
+  };
+};
+
+export const initialState: Store = {
+  list: [],
   filterParams: {
     category: FILTER_VALUES[0],
     searchString: ''
   }
 };
 
-export type StoreType = typeof InitialStore;
-
-export function reducer(action: Action, previousState: StoreType = InitialStore) {
+export function reducer(previousState: Store = initialState, action: Action): Store {
   switch (action.type) {
     case ACTION_TYPES.REMOVE: {
       return {
@@ -119,8 +145,18 @@ export function reducer(action: Action, previousState: StoreType = InitialStore)
       return { ...previousState, list: [...previousState.list, action.payload.item] };
     }
 
-    default:
+    case ACTION_TYPES.FILTER_CHANGED: {
+      previousState.filterParams.searchString = action.payload.searchString;
       return { ...previousState };
+    }
+
+    case ACTION_TYPES.CATEGORY_CHANGED: {
+      previousState.filterParams.searchString = action.payload.category;
+      return { ...previousState };
+    }
+
+    default:
+      return previousState;
   }
 }
 
@@ -161,7 +197,7 @@ export function changePosition(id: string, number: number, itemsList: Item[]) {
   return [...elms];
 }
 
-export function selectListByFilter(state: typeof InitialStore) {
+export function selectListByFilter(state: Store) {
   state.list = state.list.sort((el1, el2) => el1.position - el2.position);
   switch (state.filterParams.category) {
     case FILTER_VALUES[1]:
@@ -176,3 +212,6 @@ export function selectListByFilter(state: typeof InitialStore) {
       return state.list.filter(el => el.name.includes(state.filterParams.searchString));
   }
 }
+
+const store = createStore(reducer);
+export default store;

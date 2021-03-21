@@ -54,14 +54,14 @@ describe('reducer test', () => {
   test('remove existing item from list', () => {
     const removeItem = items[0];
     const action = { type: ACTION_TYPES.REMOVE, payload: { id: removeItem.id } };
-    const newItems = reducer(action, state);
+    const newItems = reducer(state, action);
     expect(newItems.list).not.toEqual(items);
     expect(newItems.list).not.toContain(removeItem);
   });
 
   test('remove not existing item from list', () => {
     const action = { type: ACTION_TYPES.REMOVE, payload: { id: '1000' } };
-    const newItems = reducer(action, state);
+    const newItems = reducer(state, action);
     expect(newItems.list).toEqual(items);
   });
 
@@ -72,7 +72,7 @@ describe('reducer test', () => {
       type: ACTION_TYPES.CHANGE_POSITION,
       payload: { id: changePositionItem.id, number: 1 }
     };
-    reducer(action, state);
+    reducer(state, action);
     expect(changePositionItem.position).toBe(0);
   });
 
@@ -83,7 +83,7 @@ describe('reducer test', () => {
       type: ACTION_TYPES.CHANGE_STATE,
       payload: { id: changeStateItem.id, isDone: true }
     };
-    reducer(action, state);
+    reducer(state, action);
     expect(changeStateItem.isDone).not.toBe(false);
   });
 
@@ -91,20 +91,20 @@ describe('reducer test', () => {
     const editItem = items[1];
     expect(editItem.name).toBe('second');
     const action = { type: ACTION_TYPES.EDIT, payload: { id: editItem.id, name: 'first' } };
-    reducer(action, state);
+    reducer(state, action);
     expect(editItem.name).toBe('first');
   });
 
   test('create new item', () => {
     const newItem = { id: '3', name: 'lastLast', isDone: false, position: 3 };
     const action = { type: ACTION_TYPES.CREATE, payload: { item: newItem } };
-    const newItems = reducer(action, state);
+    const newItems = reducer(state, action);
     expect(newItems.list).toContain(newItem);
   });
 
   test('pass wrong action name', () => {
     const action = { type: 'credcdcdcdate' };
-    const newItems = reducer(action, state);
+    const newItems = reducer(state, action);
     expect(newItems.list).toEqual(items);
   });
 });
