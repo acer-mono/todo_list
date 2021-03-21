@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { ACTION_TYPES, IFilterValues } from '../../store';
+import { FilterValues } from '../../redux/selectors';
+import { changeCategory } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
 
-export interface UpdateCategoryArguments {
-  name: string;
-  value: string;
-}
-
 interface CategorySelectProps {
-  filterValues: IFilterValues;
+  filterValues: FilterValues;
 }
 
 export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
@@ -21,10 +17,7 @@ export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
       value={filter}
       onChange={e => {
         setFilter(e.target.value);
-        dispatch({
-          type: ACTION_TYPES.CATEGORY_CHANGED,
-          payload: { category: e.target.value }
-        });
+        dispatch(changeCategory({ category: e.target.value }));
       }}
     >
       {filterValues.map((filterItem, index) => (

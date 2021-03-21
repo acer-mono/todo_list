@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { EditListItem } from '../EditListItemForm/EditListItemForm';
-import { ACTION_TYPES, Item } from '../../store';
 import { useDispatch } from 'react-redux';
+import { Item } from '../../redux/reducers/todos';
+import { changePosition, changeState, remove } from '../../redux/actions';
 
 interface ListItemProps {
   item: Item;
@@ -27,26 +28,15 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
         type="checkbox"
         checked={item.isDone}
         onChange={() =>
-          dispatch({
-            type: ACTION_TYPES.CHANGE_STATE,
-            payload: {
+          dispatch(
+            changeState({
               id: item.id,
               isDone: !item.isDone
-            }
-          })
+            })
+          )
         }
       />
-      <button
-        data-testid="remove-button"
-        onClick={() =>
-          dispatch({
-            type: ACTION_TYPES.REMOVE,
-            payload: {
-              id: item.id
-            }
-          })
-        }
-      >
+      <button data-testid="remove-button" onClick={() => dispatch(remove({ id: item.id }))}>
         Remove
       </button>
       <button data-testid="edit-cancel-button" onClick={() => setIsEdit(!isEdit)}>
@@ -56,13 +46,12 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
         <button
           data-testid="up"
           onClick={() =>
-            dispatch({
-              type: ACTION_TYPES.CHANGE_POSITION,
-              payload: {
+            dispatch(
+              changePosition({
                 id: item.id,
                 number: 1
-              }
-            })
+              })
+            )
           }
         >
           ↑
@@ -72,13 +61,12 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
         <button
           data-testid="down"
           onClick={() =>
-            dispatch({
-              type: ACTION_TYPES.CHANGE_POSITION,
-              payload: {
+            dispatch(
+              changePosition({
                 id: item.id,
                 number: -1
-              }
-            })
+              })
+            )
           }
         >
           ↓

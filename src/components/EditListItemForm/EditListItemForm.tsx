@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
-import { ACTION_TYPES, Item } from '../../store';
 import { useDispatch } from 'react-redux';
+import { Item } from '../../redux/reducers/todos';
+import { edit } from '../../redux/actions';
 
 interface EditListItemFormProps {
   item: Item;
@@ -15,26 +16,24 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
   function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (name !== '') {
-      dispatch({
-        type: ACTION_TYPES.EDIT,
-        payload: {
+      dispatch(
+        edit({
           id: item.id,
           name: name
-        }
-      });
+        })
+      );
     }
     closeItem();
   }
 
   function blurHandler(e: React.FocusEvent<HTMLInputElement>) {
     if (e.relatedTarget === button.current && name !== '') {
-      dispatch({
-        type: ACTION_TYPES.EDIT,
-        payload: {
+      dispatch(
+        edit({
           id: item.id,
           name: name
-        }
-      });
+        })
+      );
     }
     closeItem();
   }

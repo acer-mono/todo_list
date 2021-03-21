@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { FirebaseAppProvider } from 'reactfire';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/store';
 import firebaseConfig from './firebaseConfig.json';
 
 ReactDOM.render(

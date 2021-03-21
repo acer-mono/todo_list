@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ACTION_TYPES } from '../../store';
 import { useDispatch } from 'react-redux';
+import { create } from '../../redux/actions';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
@@ -20,10 +20,7 @@ export const CreateForm = () => {
       const newItem = { id: uid(), name, isDone: false, position: position };
       setPosition(position => position + 1);
       setName('');
-      dispatch({
-        type: ACTION_TYPES.CREATE,
-        payload: { item: newItem }
-      });
+      dispatch(create({ item: newItem }));
     } else {
       alert('?');
     }

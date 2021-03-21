@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { ACTION_TYPES } from '../../store';
+import { changeFilter } from '../../redux/actions';
 
 export const SearchPanel = () => {
   const [search, setSearch] = useState('');
@@ -11,12 +11,11 @@ export const SearchPanel = () => {
       action=""
       onSubmit={e => {
         e.preventDefault();
-        dispatch({
-          type: ACTION_TYPES.FILTER_CHANGED,
-          payload: {
+        dispatch(
+          changeFilter({
             searchString: search
-          }
-        });
+          })
+        );
       }}
     >
       <input

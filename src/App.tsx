@@ -4,7 +4,7 @@ import { List } from './components/List/List';
 import { SearchPanel } from './components/SearchPanel/SearchPanel';
 import { CreateForm } from './components/CreateForm/CreateForm';
 import { CategorySelect } from './components/CategorySelect/CategorySelect';
-import { FILTER_VALUES } from './store';
+import { FILTER_VALUES } from './redux/selectors';
 import { AuthCheck, useUser } from 'reactfire';
 import LogInForm from './LoginForm';
 import firebase from 'firebase';

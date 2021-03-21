@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { SearchPanel } from './SearchPanel';
 import { makeTestStore, testRender } from '../../setupTests';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES } from '../../redux/actionTypes';
 
 describe('SearchPanel tests', () => {
   test('search items', () => {

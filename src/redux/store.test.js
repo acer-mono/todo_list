@@ -1,4 +1,6 @@
-import { changePosition, reducer, selectListByFilter, FILTER_VALUES, ACTION_TYPES } from './store';
+import { changePosition, reducer } from './reducers/todos';
+import { FILTER_VALUES, selectListByFilter } from './selectors';
+import { ACTION_TYPES } from './actionTypes';
 
 describe('changePosition tests', () => {
   let items = null;

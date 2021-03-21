@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { CreateForm } from './CreateForm';
-import { ACTION_TYPES } from '../../store';
+import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 
 describe('CreateForm tests', () => {

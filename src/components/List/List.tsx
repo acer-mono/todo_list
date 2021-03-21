@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListItem } from '../ListItem/ListItem';
-import { selectListByFilter } from '../../store';
 import { useSelector } from 'react-redux';
+import { selectListByFilter } from '../../redux/selectors';
 
 export const List = () => {
   const list = useSelector(selectListByFilter);

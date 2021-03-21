@@ -1,8 +1,9 @@
 import { ListItem } from './ListItem';
 import React from 'react';
 import { screen, fireEvent } from '@testing-library/react';
-import { ACTION_TYPES, initialState } from '../../store';
 import { makeTestStore, testRender } from '../../setupTests';
+import { ACTION_TYPES } from '../../redux/actionTypes';
+import { initialState } from '../../redux/reducers/todos';
 
 describe('ListItemTests', () => {
   test('pass value', () => {
