@@ -20,5 +20,5 @@ export function selectListByFilter(state: Store) {
 }
 
 export function selectErrors(state: Store) {
-  return state.errors;
+  return [...state.errors];
 }

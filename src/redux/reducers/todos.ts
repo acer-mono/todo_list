@@ -89,9 +89,8 @@ export function reducer(previousState: Store = initialState, action: Action): St
     }
 
     case ACTION_TYPES.ADD_ERROR: {
-      const errors = previousState.errors;
-      errors.push(action.payload.error);
-      return { ...previousState, errors };
+      previousState.errors.push(action.payload.error);
+      return { ...previousState };
     }
 
     default:

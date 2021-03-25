@@ -50,7 +50,11 @@ describe('reducer test', () => {
       { id: '1', name: 'second', isDone: false, position: 1 },
       { id: '2', name: 'last', isDone: false, position: 2 }
     ];
-    state = { filterParams: { category: FILTER_VALUES[0], searchString: '' }, list: items };
+    state = {
+      filterParams: { category: FILTER_VALUES[0], searchString: '' },
+      list: items,
+      errors: []
+    };
   });
 
   test('remove existing item from list', () => {
@@ -108,6 +112,24 @@ describe('reducer test', () => {
     const action = { type: 'credcdcdcdate' };
     const newItems = reducer(state, action);
     expect(newItems.list).toEqual(items);
+  });
+
+  test('remove all errors', () => {
+    state = {
+      filterParams: { category: FILTER_VALUES[0], searchString: '' },
+      list: items,
+      errors: ['1', '2']
+    };
+    const action = { type: ACTION_TYPES.CLEAR_ERRORS, payload: {} };
+    const newItems = reducer(state, action);
+    expect(newItems.errors).toHaveLength(0);
+  });
+
+  test('add new error', () => {
+    const action = { type: ACTION_TYPES.ADD_ERROR, payload: { error: '1' } };
+    const newItems = reducer(state, action);
+    expect(newItems.errors).toHaveLength(1);
+    expect(newItems.errors).toContain('1');
   });
 });
 
