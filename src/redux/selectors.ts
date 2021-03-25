@@ -18,3 +18,7 @@ export function selectListByFilter(state: Store) {
       return state.list.filter(el => el.name.includes(state.filterParams.searchString));
   }
 }
+
+export function selectErrors(state: Store) {
+  return state.errors;
+}

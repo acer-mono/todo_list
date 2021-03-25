@@ -1,8 +1,10 @@
 import {
   ACTION_TYPES,
+  ActionAddError,
   ActionCategoryChanged,
   ActionChangePosition,
   ActionChangeState,
+  ActionClearErrors,
   ActionCreate,
   ActionEdit,
   ActionFilterChanged,
@@ -42,5 +44,15 @@ export const changeState = (payload: { id: string; isDone: boolean }): ActionCha
 
 export const edit = (payload: { id: string; name: string }): ActionEdit => ({
   type: ACTION_TYPES.EDIT,
+  payload
+});
+
+export const clearErrors = (payload: {}): ActionClearErrors => ({
+  type: ACTION_TYPES.CLEAR_ERRORS,
+  payload
+});
+
+export const addError = (payload: { error: string }): ActionAddError => ({
+  type: ACTION_TYPES.ADD_ERROR,
   payload
 });

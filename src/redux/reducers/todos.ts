@@ -9,6 +9,7 @@ export interface Item {
 }
 
 export type Store = {
+  errors: string[];
   list: Item[];
   filterParams: {
     category: string;
@@ -17,6 +18,7 @@ export type Store = {
 };
 
 export const initialState: Store = {
+  errors: [],
   list: [],
   filterParams: {
     category: FILTER_VALUES[0],
@@ -80,6 +82,16 @@ export function reducer(previousState: Store = initialState, action: Action): St
     case ACTION_TYPES.CATEGORY_CHANGED: {
       previousState.filterParams.category = action.payload.category;
       return { ...previousState };
+    }
+
+    case ACTION_TYPES.CLEAR_ERRORS: {
+      return { ...previousState, errors: [] };
+    }
+
+    case ACTION_TYPES.ADD_ERROR: {
+      const errors = previousState.errors;
+      errors.push(action.payload.error);
+      return { ...previousState, errors };
     }
 
     default:

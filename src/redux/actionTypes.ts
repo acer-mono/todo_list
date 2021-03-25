@@ -7,7 +7,9 @@ export enum ACTION_TYPES {
   EDIT,
   CREATE,
   FILTER_CHANGED,
-  CATEGORY_CHANGED
+  CATEGORY_CHANGED,
+  CLEAR_ERRORS,
+  ADD_ERROR
 }
 
 export type Action =
@@ -17,7 +19,21 @@ export type Action =
   | ActionEdit
   | ActionCreate
   | ActionFilterChanged
-  | ActionCategoryChanged;
+  | ActionCategoryChanged
+  | ActionClearErrors
+  | ActionAddError;
+
+export type ActionClearErrors = {
+  type: typeof ACTION_TYPES.CLEAR_ERRORS;
+  payload: {};
+};
+
+export type ActionAddError = {
+  type: typeof ACTION_TYPES.ADD_ERROR;
+  payload: {
+    error: string;
+  };
+};
 
 export type ActionFilterChanged = {
   type: typeof ACTION_TYPES.FILTER_CHANGED;
