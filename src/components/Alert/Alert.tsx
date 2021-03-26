@@ -20,7 +20,7 @@ export const Alert = ({ messages, delay, onClose }: AlertProps) => {
   if (messages.length) {
     return (
       <div className="alert" data-testid="alert">
-        <button onClick={() => onClose()} data-testid="alert-close">
+        <button onClick={onClose} data-testid="alert-close">
           Close
         </button>
         {messages.map((error, index) => (
