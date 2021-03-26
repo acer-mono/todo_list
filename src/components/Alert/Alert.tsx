@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import './Alert.css';
 
 type AlertProps = {
-  isShown: boolean;
   messages: string[];
   delay: number;
   onClose: () => void;
 };
 
-export const Alert = ({ isShown, messages, delay, onClose }: AlertProps) => {
-  const [visibility, setVisibility] = useState(isShown);
-
+export const Alert = ({ messages, delay, onClose }: AlertProps) => {
   useEffect(() => {
     let timer = setTimeout(() => {
       onClose();
-      setVisibility(false);
     }, delay);
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [messages]);
 
-  if (visibility && messages.length) {
+  if (messages.length) {
     return (
-      <div data-testid="alert">
+      <div className="alert" data-testid="alert">
+        <button onClick={() => onClose()} data-testid="alert-close">
+          Close
+        </button>
         {messages.map((error, index) => (
           <div key={index} data-testid="error">
             {error}

@@ -3,6 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { CreateForm } from './CreateForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
+import { addError } from '../../redux/actions';
 
 describe('CreateForm tests', () => {
   let store;
@@ -39,11 +40,12 @@ describe('CreateForm tests', () => {
     const field = '';
     const input = screen.queryByTestId('create-input');
     const button = screen.queryByTestId('create-button');
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
 
     fireEvent.input(input, { target: { value: field } });
-    expect(store.dispatch).not.toBeCalled();
     fireEvent.click(button);
-    expect(alert).toHaveBeenCalled();
+
+    expect(store.dispatch).toBeCalledWith(
+      addError({ error: 'Название задачи не может быть пустым' })
+    );
   });
 });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { create } from '../../redux/actions';
+import { addError, create } from '../../redux/actions';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
@@ -12,7 +12,11 @@ export const CreateForm = () => {
   };
 
   function validate() {
-    return name !== '';
+    if (name === '') {
+      dispatch(addError({ error: 'Название задачи не может быть пустым' }));
+      return false;
+    }
+    return true;
   }
 
   function createListItem() {
@@ -21,8 +25,6 @@ export const CreateForm = () => {
       setPosition(position => position + 1);
       setName('');
       dispatch(create({ item: newItem }));
-    } else {
-      alert('?');
     }
   }
   return (
