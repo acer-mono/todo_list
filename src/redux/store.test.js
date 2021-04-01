@@ -1,5 +1,5 @@
 import { changePosition, ITEM_STATE_FILTER, reducer } from './reducers/todos';
-import { selectListByFilter } from './selectors';
+import { selectItemsCount, selectListByFilter } from './selectors';
 import { ACTION_TYPES } from './actionTypes';
 
 describe('changePosition tests', () => {
@@ -200,5 +200,27 @@ describe('selectListByFilter tests', () => {
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(0);
+  });
+});
+
+describe('selectItemsCount tests', () => {
+  let items = null;
+  beforeEach(() => {
+    items = [
+      { id: '0', name: 'first', isDone: true, position: 0 },
+      { id: '1', name: 'second', isDone: false, position: 1 },
+      { id: '2', name: 'last', isDone: false, position: 2 }
+    ];
+  });
+
+  test('return correct counts of items', () => {
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      list: items
+    };
+    const counts = selectItemsCount(state);
+    expect(counts[ITEM_STATE_FILTER.ALL]).toBe(3);
+    expect(counts[ITEM_STATE_FILTER.DONE]).toBe(1);
+    expect(counts[ITEM_STATE_FILTER.NOT_DONE]).toBe(2);
   });
 });

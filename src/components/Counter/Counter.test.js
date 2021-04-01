@@ -1,9 +1,11 @@
 import React from 'react';
 import { Counter } from './Counter';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { makeTestStore, testRender } from '../../setupTests';
+import { initialState } from '../../redux/reducers/todos';
 
 describe('Counter tests', () => {
-  const items = [
+  const list = [
     {
       id: '1',
       isDone: true,
@@ -18,7 +20,9 @@ describe('Counter tests', () => {
     }
   ];
   test('Counter shows valid info', () => {
-    render(<Counter items={items} />);
+    const state = { ...initialState, list };
+    const store = makeTestStore({ initialState: state });
+    testRender(<Counter />, { store });
     const componentAll = screen.getByTestId('counter-all');
     const componentDone = screen.getByTestId('counter-done');
     const componentNotDone = screen.getByTestId('counter-not-done');

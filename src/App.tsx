@@ -4,7 +4,7 @@ import { List } from './components/List/List';
 import { SearchPanel } from './components/SearchPanel/SearchPanel';
 import { CreateForm } from './components/CreateForm/CreateForm';
 import { CategorySelect } from './components/CategorySelect/CategorySelect';
-import { selectErrors, selectListByFilter } from './redux/selectors';
+import { selectErrors } from './redux/selectors';
 import { AuthCheck, useUser } from 'reactfire';
 import LogInForm from './LoginForm';
 import firebase from 'firebase';
@@ -58,8 +58,8 @@ function App() {
             <br />
             <SearchPanel />
             <br />
+            <Counter />
             <List />
-            <Counter items={useSelector(selectListByFilter)} />
           </div>
         </div>
       </AuthCheck>

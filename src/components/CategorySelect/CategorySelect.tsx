@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { changeCategory } from '../../redux/actions';
-import { useDispatch } from 'react-redux';
-import { ITEM_STATE_FILTER } from '../../redux/reducers/todos';
+import { useDispatch, useSelector } from 'react-redux';
+import { ITEM_STATE_FILTER, Store } from '../../redux/reducers/todos';
 
 interface CategorySelectProps {
   filterValues: typeof ITEM_STATE_FILTER;
 }
 
 export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
-  const [filter, setFilter] = useState(filterValues.ALL);
+  const currentItemState = useSelector((store: Store) => store.filterParams.category);
   const dispatch = useDispatch();
   return (
     <select
       data-testid="select"
       name="select"
-      value={filter}
+      value={currentItemState}
       onChange={e => {
-        setFilter(e.target.value);
         dispatch(changeCategory({ category: e.target.value }));
       }}
     >
