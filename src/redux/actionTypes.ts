@@ -1,4 +1,4 @@
-import { Item } from './reducers/todos';
+import { Item, ITEM_STATE_FILTER_TYPE } from './reducers/todos';
 
 export enum ACTION_TYPES {
   REMOVE,
@@ -45,7 +45,7 @@ export type ActionFilterChanged = {
 export type ActionCategoryChanged = {
   type: typeof ACTION_TYPES.CATEGORY_CHANGED;
   payload: {
-    category: string;
+    category: ITEM_STATE_FILTER_TYPE;
   };
 };
 

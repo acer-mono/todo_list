@@ -1,5 +1,5 @@
-import { changePosition, reducer } from './reducers/todos';
-import { FILTER_VALUES, selectListByFilter } from './selectors';
+import { changePosition, ITEM_STATE_FILTER, reducer } from './reducers/todos';
+import { selectListByFilter } from './selectors';
 import { ACTION_TYPES } from './actionTypes';
 
 describe('changePosition tests', () => {
@@ -51,7 +51,7 @@ describe('reducer test', () => {
       { id: '2', name: 'last', isDone: false, position: 2 }
     ];
     state = {
-      filterParams: { category: FILTER_VALUES[0], searchString: '' },
+      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
       list: items,
       errors: []
     };
@@ -116,7 +116,7 @@ describe('reducer test', () => {
 
   test('remove all errors', () => {
     state = {
-      filterParams: { category: FILTER_VALUES[0], searchString: '' },
+      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
       list: items,
       errors: ['1', '2']
     };
@@ -144,21 +144,30 @@ describe('selectListByFilter tests', () => {
   });
 
   test('get done elements', () => {
-    const state = { filterParams: { category: FILTER_VALUES[1], searchString: '' }, list: items };
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.DONE, searchString: '' },
+      list: items
+    };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(1);
     expect(newItems).toEqual(items.filter(el => el.isDone));
   });
 
   test('get all elements', () => {
-    const state = { filterParams: { category: FILTER_VALUES[0], searchString: '' }, list: items };
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
+      list: items
+    };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(3);
     expect(newItems).toEqual(items);
   });
 
   test('get elements in progress', () => {
-    const state = { filterParams: { category: FILTER_VALUES[2], searchString: '' }, list: items };
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '' },
+      list: items
+    };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(2);
     expect(newItems).toEqual(items.filter(el => !el.isDone));
@@ -166,7 +175,7 @@ describe('selectListByFilter tests', () => {
 
   test('get done element with active filter', () => {
     const state = {
-      filterParams: { category: FILTER_VALUES[1], searchString: 'first' },
+      filterParams: { category: ITEM_STATE_FILTER.DONE, searchString: 'first' },
       list: items
     };
     const newItems = selectListByFilter(state);
@@ -176,7 +185,7 @@ describe('selectListByFilter tests', () => {
 
   test('get element in progress with active filter', () => {
     const state = {
-      filterParams: { category: FILTER_VALUES[2], searchString: 'second' },
+      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: 'second' },
       list: items
     };
     const newItems = selectListByFilter(state);
@@ -185,7 +194,10 @@ describe('selectListByFilter tests', () => {
   });
 
   test('try to find not existent element', () => {
-    const state = { filterParams: { category: FILTER_VALUES[2], searchString: '12' }, list: items };
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      list: items
+    };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(0);
   });

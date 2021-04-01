@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { FilterValues } from '../../redux/selectors';
 import { changeCategory } from '../../redux/actions';
 import { useDispatch } from 'react-redux';
+import { ITEM_STATE_FILTER } from '../../redux/reducers/todos';
 
 interface CategorySelectProps {
-  filterValues: FilterValues;
+  filterValues: typeof ITEM_STATE_FILTER;
 }
 
 export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
-  const [filter, setFilter] = useState(filterValues[0]);
+  const [filter, setFilter] = useState(filterValues.ALL);
   const dispatch = useDispatch();
   return (
     <select
@@ -20,9 +20,9 @@ export const CategorySelect = ({ filterValues }: CategorySelectProps) => {
         dispatch(changeCategory({ category: e.target.value }));
       }}
     >
-      {filterValues.map((filterItem, index) => (
-        <option data-testid="category-option" key={index} value={filterItem}>
-          {filterItem}
+      {Object.entries(filterValues).map(([key, value]) => (
+        <option data-testid="category-option" key={key} value={value}>
+          {value}
         </option>
       ))}
     </select>

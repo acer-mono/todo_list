@@ -1,5 +1,15 @@
 import { Action, ACTION_TYPES } from '../actionTypes';
-import { FILTER_VALUES } from '../selectors';
+
+export const ITEM_STATE_FILTER = {
+  ALL: 'All',
+  DONE: 'Done',
+  NOT_DONE: 'Not done'
+};
+
+export type ITEM_STATE_FILTER_TYPE =
+  | typeof ITEM_STATE_FILTER.ALL
+  | typeof ITEM_STATE_FILTER.DONE
+  | typeof ITEM_STATE_FILTER.NOT_DONE;
 
 export interface Item {
   id: string;
@@ -12,7 +22,7 @@ export type Store = {
   errors: string[];
   list: Item[];
   filterParams: {
-    category: string;
+    category: ITEM_STATE_FILTER_TYPE;
     searchString: string;
   };
 };
@@ -21,7 +31,7 @@ export const initialState: Store = {
   errors: [],
   list: [],
   filterParams: {
-    category: FILTER_VALUES[0],
+    category: ITEM_STATE_FILTER.ALL,
     searchString: ''
   }
 };
