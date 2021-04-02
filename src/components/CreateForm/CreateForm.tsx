@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addError, create } from '../../redux/actions';
+import { selectListTitles } from '../../redux/selectors';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
   const [position, setPosition] = useState(0);
   const dispatch = useDispatch();
+  const todos = useSelector(selectListTitles);
 
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -14,6 +16,10 @@ export const CreateForm = () => {
   function validate() {
     if (name === '') {
       dispatch(addError({ error: 'Название задачи не может быть пустым' }));
+      return false;
+    }
+    if (todos.includes(name)) {
+      dispatch(addError({ error: 'Названия задач не должны повторяться' }));
       return false;
     }
     return true;

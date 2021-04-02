@@ -37,3 +37,8 @@ export const selectItemsCount = createSelector(
     [ITEM_STATE_FILTER.NOT_DONE]: selectListByItemState(list, ITEM_STATE_FILTER.NOT_DONE).length
   })
 );
+
+export const selectListTitles = createSelector(
+  (state: Store) => state.list,
+  (list: Item[]): string[] => list.map(el => el.name)
+);
