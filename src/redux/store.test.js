@@ -1,6 +1,17 @@
 import { changePosition, ITEM_STATE_FILTER, reducer } from './reducers/todos';
-import { selectItemsCount, selectListByFilter } from './selectors';
+import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
 import { ACTION_TYPES } from './actionTypes';
+import {
+  changeCategory,
+  changeFilter,
+  create,
+  remove,
+  changePosition as changePos,
+  changeState,
+  edit,
+  clearErrors,
+  addError
+} from './actions';
 
 describe('changePosition tests', () => {
   let items = null;
@@ -222,5 +233,108 @@ describe('selectItemsCount tests', () => {
     expect(counts[ITEM_STATE_FILTER.ALL]).toBe(3);
     expect(counts[ITEM_STATE_FILTER.DONE]).toBe(1);
     expect(counts[ITEM_STATE_FILTER.NOT_DONE]).toBe(2);
+  });
+});
+
+describe('selectListTitles tests', () => {
+  let items = null;
+  beforeEach(() => {
+    items = [
+      { id: '0', name: 'first', isDone: true, position: 0 },
+      { id: '1', name: 'second', isDone: false, position: 1 },
+      { id: '2', name: 'last', isDone: false, position: 2 }
+    ];
+  });
+
+  test('return correct counts of items', () => {
+    const state = {
+      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      list: items
+    };
+    const titles = selectListTitles(state);
+    expect(titles).toEqual(['first', 'second', 'last']);
+  });
+});
+
+describe('actions tests', () => {
+  test('create', () => {
+    const payload = { id: '', isDone: false, name: 'string', position: 1 };
+    const expectedAction = {
+      type: ACTION_TYPES.CREATE,
+      payload
+    };
+    expect(create(payload)).toEqual(expectedAction);
+  });
+
+  test('changeFilter', () => {
+    const payload = { searchString: '' };
+    const expectedAction = {
+      type: ACTION_TYPES.FILTER_CHANGED,
+      payload
+    };
+    expect(changeFilter(payload)).toEqual(expectedAction);
+  });
+
+  test('changeCategory', () => {
+    const payload = { category: '' };
+    const expectedAction = {
+      type: ACTION_TYPES.CATEGORY_CHANGED,
+      payload
+    };
+    expect(changeCategory(payload)).toEqual(expectedAction);
+  });
+
+  test('remove', () => {
+    const payload = { id: '' };
+    const expectedAction = {
+      type: ACTION_TYPES.REMOVE,
+      payload
+    };
+    expect(remove(payload)).toEqual(expectedAction);
+  });
+
+  test('changePosition', () => {
+    const payload = { id: '', number: 1 };
+    const expectedAction = {
+      type: ACTION_TYPES.CHANGE_POSITION,
+      payload
+    };
+    expect(changePos(payload)).toEqual(expectedAction);
+  });
+
+  test('changeState', () => {
+    const payload = { id: '', isDone: true };
+    const expectedAction = {
+      type: ACTION_TYPES.CHANGE_STATE,
+      payload
+    };
+    expect(changeState(payload)).toEqual(expectedAction);
+  });
+
+  test('edit', () => {
+    const payload = { id: '', name: '' };
+    const expectedAction = {
+      type: ACTION_TYPES.EDIT,
+      payload
+    };
+    expect(edit(payload)).toEqual(expectedAction);
+  });
+
+  test('clearErrors', () => {
+    const payload = {};
+    const expectedAction = {
+      type: ACTION_TYPES.CLEAR_ERRORS,
+      payload
+    };
+    expect(clearErrors(payload)).toEqual(expectedAction);
+  });
+
+  test('addError', () => {
+    const payload = { error: '' };
+    const expectedAction = {
+      type: ACTION_TYPES.ADD_ERROR,
+      payload
+    };
+    expect(addError(payload)).toEqual(expectedAction);
   });
 });
