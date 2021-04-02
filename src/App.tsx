@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { List } from './components/List/List';
 import { SearchPanel } from './components/SearchPanel/SearchPanel';
@@ -14,8 +14,6 @@ import { ITEM_STATE_FILTER } from './redux/reducers/todos';
 function App() {
   const messages = useSelector(selectErrors);
   const dispatch = useDispatch();
-
-  useEffect(() => {}, []);
 
   return (
     <>
