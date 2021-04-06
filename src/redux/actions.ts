@@ -8,6 +8,7 @@ import {
   ActionCreate,
   ActionEdit,
   ActionFilterChanged,
+  ActionLoadMessages,
   ActionRemove
 } from './actionTypes';
 import { Item } from './reducers/todos';
@@ -54,5 +55,10 @@ export const clearErrors = (payload: {}): ActionClearErrors => ({
 
 export const addError = (payload: { error: string }): ActionAddError => ({
   type: ACTION_TYPES.ADD_ERROR,
+  payload
+});
+
+export const loadMessages = (payload: { list: Item[] }): ActionLoadMessages => ({
+  type: ACTION_TYPES.LOAD_MESSAGES,
   payload
 });

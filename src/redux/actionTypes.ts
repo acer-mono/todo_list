@@ -9,7 +9,8 @@ export enum ACTION_TYPES {
   FILTER_CHANGED,
   CATEGORY_CHANGED,
   CLEAR_ERRORS,
-  ADD_ERROR
+  ADD_ERROR,
+  LOAD_MESSAGES
 }
 
 export type Action =
@@ -21,11 +22,19 @@ export type Action =
   | ActionFilterChanged
   | ActionCategoryChanged
   | ActionClearErrors
-  | ActionAddError;
+  | ActionAddError
+  | ActionLoadMessages;
 
 export type ActionClearErrors = {
   type: typeof ACTION_TYPES.CLEAR_ERRORS;
   payload: {};
+};
+
+export type ActionLoadMessages = {
+  type: typeof ACTION_TYPES.LOAD_MESSAGES;
+  payload: {
+    list: Item[];
+  };
 };
 
 export type ActionAddError = {

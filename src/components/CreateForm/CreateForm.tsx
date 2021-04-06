@@ -9,9 +9,11 @@ export const CreateForm = () => {
   const dispatch = useDispatch();
   const todos = useSelector(selectListTitles);
 
+  /*
   const uid = function () {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
+  */
 
   function validate() {
     if (name === '') {
@@ -24,15 +26,30 @@ export const CreateForm = () => {
     }
     return true;
   }
+  const url = 'http://localhost:3001/todos';
 
-  function createListItem() {
+  const createListItem = async () => {
     if (validate()) {
-      const newItem = { id: uid(), name, isDone: false, position: position };
-      setPosition(position => position + 1);
-      setName('');
-      dispatch(create({ item: newItem }));
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          position: position
+        })
+      });
+      const data = await response.json();
+      if (data.error) {
+        dispatch(addError({ error: data.error }));
+      } else {
+        setPosition(position => position + 1);
+        setName('');
+        dispatch(create({ item: data }));
+      }
     }
-  }
+  };
   return (
     <>
       <input

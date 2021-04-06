@@ -102,6 +102,10 @@ export function reducer(previousState: Store = initialState, action: Action): St
       return { ...previousState, errors: [...previousState.errors, action.payload.error] };
     }
 
+    case ACTION_TYPES.LOAD_MESSAGES: {
+      return { ...previousState, list: action.payload.list };
+    }
+
     default:
       return previousState;
   }
