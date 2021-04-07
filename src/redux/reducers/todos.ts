@@ -13,8 +13,8 @@ export type ITEM_STATE_FILTER_TYPE =
 
 export interface Item {
   id: string;
-  isDone: boolean;
-  name: string;
+  isChecked: boolean;
+  title: string;
   position: number;
 }
 
@@ -58,7 +58,7 @@ export function reducer(previousState: Store = initialState, action: Action): St
         list: [
           ...previousState.list.map(item => {
             if (item.id === action.payload.id) {
-              item.isDone = action.payload.isDone;
+              item.isChecked = action.payload.isDone;
             }
             return item;
           })
@@ -72,7 +72,7 @@ export function reducer(previousState: Store = initialState, action: Action): St
         list: [
           ...previousState.list.map(item => {
             if (item.id === action.payload.id) {
-              item.name = action.payload.name;
+              item.title = action.payload.name;
             }
             return item;
           })

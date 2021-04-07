@@ -18,20 +18,20 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
   return (
     <>
       {!isEdit && (
-        <li data-testid="list-item" style={item.isDone ? isDone : {}}>
-          {item.name}
+        <li data-testid="list-item" style={item.isChecked ? isDone : {}}>
+          {item.title}
         </li>
       )}
       {isEdit && <EditListItem item={item} closeItem={() => setIsEdit(false)} />}
       <input
         data-testid="item-checkbox"
         type="checkbox"
-        checked={item.isDone}
+        checked={item.isChecked}
         onChange={() =>
           dispatch(
             changeState({
               id: item.id,
-              isDone: !item.isDone
+              isDone: !item.isChecked
             })
           )
         }

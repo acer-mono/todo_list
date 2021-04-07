@@ -4,16 +4,16 @@ import { createSelector } from 'reselect';
 export function selectListByItemState(list: Item[], itemState: ITEM_STATE_FILTER_TYPE): Item[] {
   switch (itemState) {
     case ITEM_STATE_FILTER.DONE:
-      return list.filter(el => el.isDone);
+      return list.filter(el => el.isChecked);
     case ITEM_STATE_FILTER.NOT_DONE:
-      return list.filter(el => !el.isDone);
+      return list.filter(el => !el.isChecked);
     default:
       return list;
   }
 }
 
 export function selectListByFilterString(list: Item[], filterString: string): Item[] {
-  return list.filter(el => el.name.toLowerCase().includes(filterString.toLowerCase()));
+  return list.filter(el => el.title.toLowerCase().includes(filterString.toLowerCase()));
 }
 
 export const selectListByFilter = createSelector(
@@ -40,5 +40,5 @@ export const selectItemsCount = createSelector(
 
 export const selectListTitles = createSelector(
   (state: Store) => state.list,
-  (list: Item[]): string[] => list.map(el => el.name)
+  (list: Item[]): string[] => list.map(el => el.title)
 );

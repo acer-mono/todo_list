@@ -9,7 +9,7 @@ interface EditListItemFormProps {
 }
 
 export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
-  const [name, setName] = useState(item.name);
+  const [name, setName] = useState(item.title);
   const dispatch = useDispatch();
   const button = useRef(null);
 
