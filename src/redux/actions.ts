@@ -3,6 +3,7 @@ import {
   ActionAddError,
   ActionCategoryChanged,
   ActionChangePosition,
+  ActionChangeRequestStatus,
   ActionChangeState,
   ActionClearErrors,
   ActionCreate,
@@ -12,6 +13,7 @@ import {
   ActionRemove
 } from './actionTypes';
 import { Item } from './reducers/todos';
+import { AppDispatch } from './store';
 
 export const create = (payload: { item: Item }): ActionCreate => ({
   type: ACTION_TYPES.CREATE,
@@ -62,3 +64,63 @@ export const loadMessages = (payload: { list: Item[] }): ActionLoadMessages => (
   type: ACTION_TYPES.LOAD_MESSAGES,
   payload
 });
+
+export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestStatus => ({
+  type: ACTION_TYPES.SET_REQUEST_STATUS,
+  payload: {
+    requestStatus: status
+  }
+});
+
+export enum REQUEST_STATUS {
+  IDLE,
+  LOADING,
+  SUCCESS,
+  ERROR
+}
+
+const url = 'http://localhost:3001/todos';
+
+export const addElement = (title: string) => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      title,
+      position: 1
+    })
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: data.error }));
+  } else {
+    dispatch(create({ item: data }));
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+  }
+};
+
+export const getElements = () => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: data.error }));
+  } else {
+    dispatch(loadMessages({ list: data }));
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+  }
+};

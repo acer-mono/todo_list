@@ -1,4 +1,5 @@
 import { Action, ACTION_TYPES } from '../actionTypes';
+import { REQUEST_STATUS } from '../actions';
 
 export const ITEM_STATE_FILTER = {
   ALL: 'All',
@@ -19,6 +20,7 @@ export interface Item {
 }
 
 export type Store = {
+  requestStatus: REQUEST_STATUS;
   errors: string[];
   list: Item[];
   filterParams: {
@@ -28,6 +30,7 @@ export type Store = {
 };
 
 export const initialState: Store = {
+  requestStatus: REQUEST_STATUS.IDLE,
   errors: [],
   list: [],
   filterParams: {
@@ -104,6 +107,10 @@ export function reducer(previousState: Store = initialState, action: Action): St
 
     case ACTION_TYPES.LOAD_MESSAGES: {
       return { ...previousState, list: action.payload.list };
+    }
+
+    case ACTION_TYPES.SET_REQUEST_STATUS: {
+      return { ...previousState, requestStatus: action.payload.requestStatus };
     }
 
     default:

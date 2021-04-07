@@ -1,47 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addError, create } from '../../redux/actions';
-
-enum REQUEST_STATUS {
-  IDLE,
-  LOADING,
-  SUCCESS,
-  ERROR
-}
-
-const url = 'http://localhost:3001/todos';
+import { useDispatch, useSelector } from 'react-redux';
+import { addElement, REQUEST_STATUS } from '../../redux/actions';
+import { Store } from '../../redux/reducers/todos';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
-  const [position, setPosition] = useState(0);
-  const [requestState, setRequestState] = useState(REQUEST_STATUS.IDLE);
+  const requestState = useSelector((state: Store) => state.requestStatus);
+  //const [position, setPosition] = useState(0);
   const dispatch = useDispatch();
 
   const createListItem = async () => {
-    setRequestState(REQUEST_STATUS.LOADING);
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: name,
-        position: position
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      dispatch(addError({ error: data.error }));
-      setRequestState(REQUEST_STATUS.ERROR);
-    } else {
-      dispatch(create({ item: data }));
-      setRequestState(REQUEST_STATUS.SUCCESS);
-      setPosition(position => position + 1);
-      setName('');
-    }
+    dispatch(addElement(name));
   };
+
   return (
     <>
       {requestState === REQUEST_STATUS.LOADING && 'Loading'}

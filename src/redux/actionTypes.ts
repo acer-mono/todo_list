@@ -1,4 +1,5 @@
 import { Item, ITEM_STATE_FILTER_TYPE } from './reducers/todos';
+import { REQUEST_STATUS } from './actions';
 
 export enum ACTION_TYPES {
   REMOVE,
@@ -10,7 +11,8 @@ export enum ACTION_TYPES {
   CATEGORY_CHANGED,
   CLEAR_ERRORS,
   ADD_ERROR,
-  LOAD_MESSAGES
+  LOAD_MESSAGES,
+  SET_REQUEST_STATUS
 }
 
 export type Action =
@@ -23,7 +25,13 @@ export type Action =
   | ActionCategoryChanged
   | ActionClearErrors
   | ActionAddError
-  | ActionLoadMessages;
+  | ActionLoadMessages
+  | ActionChangeRequestStatus;
+
+export type ActionChangeRequestStatus = {
+  type: typeof ACTION_TYPES.SET_REQUEST_STATUS;
+  payload: { requestStatus: REQUEST_STATUS };
+};
 
 export type ActionClearErrors = {
   type: typeof ACTION_TYPES.CLEAR_ERRORS;
