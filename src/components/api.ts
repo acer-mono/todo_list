@@ -53,6 +53,25 @@ const api = {
         body: JSON.stringify({
           id
         })
+      }).then(handleErrors),
+    isAuth: () =>
+      fetch(`${URL}/auth`, {
+        method: 'GET',
+        headers: defaultHeaders
+      }).then(handleErrors),
+    login: (username: string, password: string) =>
+      fetch(`${URL}/auth`, {
+        method: 'POST',
+        headers: defaultHeaders,
+        body: JSON.stringify({
+          username,
+          password
+        })
+      }).then(handleErrors),
+    logout: () =>
+      fetch(`${URL}/auth`, {
+        method: 'DELETE',
+        headers: defaultHeaders
       }).then(handleErrors)
   }
 };

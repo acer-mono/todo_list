@@ -125,19 +125,3 @@ export const removeElement = (id: string) => async (dispatch: AppDispatch) => {
     dispatch(addError({ error: e.message }));
   }
 };
-
-/*
-export const login = () => {
-  return {
-    [RSAA]: {
-      endpoint: `https://jsonplaceholder.typicode.com/users/${user}`,
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      types: ['LOADING', ACTION_TYPES.LOAD_MESSAGES, ACTION_TYPES.ADD_ERROR]
-    }
-  };
-};
-*/
