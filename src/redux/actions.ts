@@ -14,6 +14,14 @@ import {
 } from './actionTypes';
 import { Item } from './reducers/todos';
 import { AppDispatch } from './store';
+import api from '../components/api';
+
+export enum REQUEST_STATUS {
+  IDLE,
+  LOADING,
+  SUCCESS,
+  ERROR
+}
 
 export const create = (payload: { item: Item }): ActionCreate => ({
   type: ACTION_TYPES.CREATE,
@@ -72,55 +80,27 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
   }
 });
 
-export enum REQUEST_STATUS {
-  IDLE,
-  LOADING,
-  SUCCESS,
-  ERROR
-}
-
-const url = 'http://localhost:3001/todos';
-
-export const addElement = (title: string) => async (dispatch: AppDispatch) => {
+export const addElement = (title: string, position: number) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      title,
-      position: 1
-    })
-  });
 
-  const data = await response.json();
-
-  if (!response.ok) {
-    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
-    dispatch(addError({ error: data.error }));
-  } else {
+  try {
+    const data = await api.todos.add({ title: title, position: position });
     dispatch(create({ item: data }));
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
   }
 };
 
 export const getElements = () => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
-    dispatch(addError({ error: data.error }));
-  } else {
-    dispatch(loadMessages({ list: data }));
+  try {
+    const data = await api.todos.list();
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(loadMessages({ list: data }));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
   }
 };
