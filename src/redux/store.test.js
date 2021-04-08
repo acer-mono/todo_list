@@ -119,7 +119,7 @@ describe('reducer test', () => {
     expect(newItems.list).toContain(newItem);
   });
 
-  test('pass wrong action name', () => {
+  test('pass wrong action title', () => {
     const action = { type: 'credcdcdcdate' };
     const newItems = reducer(state, action);
     expect(newItems.list).toEqual(items);

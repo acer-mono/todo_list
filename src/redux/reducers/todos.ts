@@ -48,34 +48,21 @@ export function reducer(previousState: Store = initialState, action: Action): St
       };
     }
 
-    case ACTION_TYPES.CHANGE_POSITION: {
-      return {
-        ...previousState,
-        list: changePosition(action.payload.id, action.payload.number, previousState.list)
-      };
-    }
-
-    case ACTION_TYPES.CHANGE_STATE: {
-      return {
-        ...previousState,
-        list: [
-          ...previousState.list.map(item => {
-            if (item.id === action.payload.id) {
-              item.isChecked = action.payload.isDone;
-            }
-            return item;
-          })
-        ]
-      };
-    }
-
     case ACTION_TYPES.EDIT: {
       return {
         ...previousState,
         list: [
           ...previousState.list.map(item => {
             if (item.id === action.payload.id) {
-              item.title = action.payload.name;
+              if (action.payload.title !== undefined) {
+                item.title = action.payload.title;
+              }
+              if (action.payload.position !== undefined) {
+                item.position = action.payload.position;
+              }
+              if (action.payload.isChecked !== undefined) {
+                item.isChecked = action.payload.isChecked;
+              }
             }
             return item;
           })

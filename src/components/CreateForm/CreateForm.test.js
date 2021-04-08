@@ -11,7 +11,7 @@ describe('CreateForm tests', () => {
     store = makeTestStore();
   });
 
-  test('create item with valid name', () => {
+  test('create item with valid title', () => {
     testRender(<CreateForm />, { store });
 
     const field = 'some text';
@@ -34,7 +34,7 @@ describe('CreateForm tests', () => {
     );
   });
 
-  test('try to create item with empty name', () => {
+  test('try to create item with empty title', () => {
     testRender(<CreateForm />, { store });
 
     const field = '';

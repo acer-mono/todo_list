@@ -24,6 +24,35 @@ const api = {
       fetch(`${URL}/todos`, {
         method: 'GET',
         headers: defaultHeaders
+      }).then(handleErrors),
+    update: ({
+      id,
+      isChecked,
+      title,
+      position
+    }: {
+      id: string;
+      isChecked: boolean | undefined;
+      title: string | undefined;
+      position: number | undefined;
+    }) =>
+      fetch(`${URL}/todos/${id}`, {
+        method: 'PUT',
+        headers: defaultHeaders,
+        body: JSON.stringify({
+          id,
+          title,
+          isChecked,
+          position
+        })
+      }).then(handleErrors),
+    delete: (id: string) =>
+      fetch(`${URL}/todos/${id}`, {
+        method: 'DELETE',
+        headers: defaultHeaders,
+        body: JSON.stringify({
+          id
+        })
       }).then(handleErrors)
   }
 };

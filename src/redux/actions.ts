@@ -2,9 +2,7 @@ import {
   ACTION_TYPES,
   ActionAddError,
   ActionCategoryChanged,
-  ActionChangePosition,
   ActionChangeRequestStatus,
-  ActionChangeState,
   ActionClearErrors,
   ActionCreate,
   ActionEdit,
@@ -43,17 +41,12 @@ export const remove = (payload: { id: string }): ActionRemove => ({
   payload
 });
 
-export const changePosition = (payload: { id: string; number: number }): ActionChangePosition => ({
-  type: ACTION_TYPES.CHANGE_POSITION,
-  payload
-});
-
-export const changeState = (payload: { id: string; isDone: boolean }): ActionChangeState => ({
-  type: ACTION_TYPES.CHANGE_STATE,
-  payload
-});
-
-export const edit = (payload: { id: string; name: string }): ActionEdit => ({
+export const edit = (payload: {
+  id: string;
+  title: string | undefined;
+  position: number | undefined;
+  isChecked: boolean | undefined;
+}): ActionEdit => ({
   type: ACTION_TYPES.EDIT,
   payload
 });
@@ -82,7 +75,6 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
 
 export const addElement = (title: string, position: number) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
-
   try {
     const data = await api.todos.add({ title: title, position: position });
     dispatch(create({ item: data }));
@@ -104,3 +96,48 @@ export const getElements = () => async (dispatch: AppDispatch) => {
     dispatch(addError({ error: e.message }));
   }
 };
+
+export const editElement = (item: {
+  id: string;
+  isChecked: boolean | undefined;
+  title: string | undefined;
+  position: number | undefined;
+}) => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  try {
+    await api.todos.update(item);
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(edit({ ...item }));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
+  }
+};
+
+export const removeElement = (id: string) => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  try {
+    await api.todos.delete(id);
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(remove({ id: id }));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
+  }
+};
+
+/*
+export const login = () => {
+  return {
+    [RSAA]: {
+      endpoint: `https://jsonplaceholder.typicode.com/users/${user}`,
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      types: ['LOADING', ACTION_TYPES.LOAD_MESSAGES, ACTION_TYPES.ADD_ERROR]
+    }
+  };
+};
+*/

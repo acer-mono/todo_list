@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { EditListItem } from '../EditListItemForm/EditListItemForm';
 import { useDispatch } from 'react-redux';
 import { Item } from '../../redux/reducers/todos';
-import { changePosition, changeState, remove } from '../../redux/actions';
+import { editElement, removeElement } from '../../redux/actions';
 
 interface ListItemProps {
   item: Item;
@@ -29,14 +29,16 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
         checked={item.isChecked}
         onChange={() =>
           dispatch(
-            changeState({
+            editElement({
               id: item.id,
-              isDone: !item.isChecked
+              position: undefined,
+              isChecked: !item.isChecked,
+              title: undefined
             })
           )
         }
       />
-      <button data-testid="remove-button" onClick={() => dispatch(remove({ id: item.id }))}>
+      <button data-testid="remove-button" onClick={() => dispatch(removeElement(item.id))}>
         Remove
       </button>
       <button data-testid="edit-cancel-button" onClick={() => setIsEdit(!isEdit)}>
@@ -47,9 +49,11 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
           data-testid="up"
           onClick={() =>
             dispatch(
-              changePosition({
+              editElement({
                 id: item.id,
-                number: 1
+                position: item.position + 1,
+                title: undefined,
+                isChecked: undefined
               })
             )
           }
@@ -62,9 +66,11 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
           data-testid="down"
           onClick={() =>
             dispatch(
-              changePosition({
+              editElement({
                 id: item.id,
-                number: -1
+                position: item.position - 1,
+                title: undefined,
+                isChecked: undefined
               })
             )
           }

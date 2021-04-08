@@ -27,9 +27,9 @@ describe('EditListItemForm tests', () => {
     expect(button).toBeInTheDocument();
   });
 
-  test('submit form with valid name', () => {
+  test('submit form with valid title', () => {
     const closeItemHandler = jest.fn();
-    const field = 'some new name';
+    const field = 'some new title';
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
     const form = screen.getByTestId('editForm');
@@ -45,7 +45,7 @@ describe('EditListItemForm tests', () => {
     expect(closeItemHandler).toHaveBeenCalled();
   });
 
-  test('submit form with empty name', () => {
+  test('submit form with empty title', () => {
     const closeItemHandler = jest.fn();
     const field = '';
 
@@ -62,7 +62,7 @@ describe('EditListItemForm tests', () => {
 
   test('click on submit button', () => {
     const closeItemHandler = jest.fn();
-    const field = 'some new name';
+    const field = 'some new title';
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
 
@@ -81,7 +81,7 @@ describe('EditListItemForm tests', () => {
 
   test('focusOut from input', () => {
     const closeItemHandler = jest.fn();
-    const field = 'some new name';
+    const field = 'some new title';
 
     testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
 

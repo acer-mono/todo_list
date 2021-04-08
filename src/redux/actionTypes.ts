@@ -3,8 +3,6 @@ import { REQUEST_STATUS } from './actions';
 
 export enum ACTION_TYPES {
   REMOVE,
-  CHANGE_POSITION,
-  CHANGE_STATE,
   EDIT,
   CREATE,
   FILTER_CHANGED,
@@ -17,8 +15,6 @@ export enum ACTION_TYPES {
 
 export type Action =
   | ActionRemove
-  | ActionChangePosition
-  | ActionChangeState
   | ActionEdit
   | ActionCreate
   | ActionFilterChanged
@@ -73,27 +69,13 @@ export type ActionRemove = {
   };
 };
 
-export type ActionChangePosition = {
-  type: typeof ACTION_TYPES.CHANGE_POSITION;
-  payload: {
-    id: string;
-    number: number;
-  };
-};
-
-export type ActionChangeState = {
-  type: typeof ACTION_TYPES.CHANGE_STATE;
-  payload: {
-    id: string;
-    isDone: boolean;
-  };
-};
-
 export type ActionEdit = {
   type: typeof ACTION_TYPES.EDIT;
   payload: {
     id: string;
-    name: string;
+    title: string | undefined;
+    position: number | undefined;
+    isChecked: boolean | undefined;
   };
 };
 
