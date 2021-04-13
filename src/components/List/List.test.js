@@ -9,8 +9,8 @@ import { REQUEST_STATUS } from '../../redux/actions';
 describe('List tests', () => {
   test('pass two items', () => {
     const list = [
-      { id: 0, title: 'hello', isChecked: false, position: 10 },
-      { id: 1, title: 'hello', isChecked: false, position: 11 }
+      { id: 0, title: 'hello', isChecked: false },
+      { id: 1, title: 'hello', isChecked: false }
     ];
     const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
     testRender(<List />, { store });
@@ -27,8 +27,8 @@ describe('List tests', () => {
 
   test('remove all items', () => {
     const list = [
-      { id: 0, title: 'hello', isChecked: false, position: 10 },
-      { id: 1, title: 'hello', isChecked: false, position: 11 }
+      { id: 0, title: 'hello', isChecked: false },
+      { id: 1, title: 'hello', isChecked: false }
     ];
     const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
     testRender(<List />, { store });
@@ -44,8 +44,8 @@ describe('List tests', () => {
 
   test('click on checkbox of every item', () => {
     const list = [
-      { id: 0, title: 'hello', isChecked: false, position: 10 },
-      { id: 1, title: 'hello', isChecked: true, position: 11 }
+      { id: 0, title: 'hello', isChecked: false },
+      { id: 1, title: 'hello', isChecked: true }
     ];
     const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
     testRender(<List />, { store });

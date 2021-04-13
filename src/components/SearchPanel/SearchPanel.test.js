@@ -35,14 +35,12 @@ describe('SearchPanel tests', () => {
       {
         id: '1',
         isChecked: true,
-        title: 'Hello',
-        position: 0
+        title: 'Hello'
       },
       {
         id: '2',
         isChecked: false,
-        title: 'World',
-        position: 1
+        title: 'World'
       }
     ];
     const state = { ...initialState, list };

@@ -74,7 +74,6 @@ export type ActionEdit = {
   payload: {
     id: string;
     title: string | undefined;
-    position: number | undefined;
     isChecked: boolean | undefined;
   };
 };

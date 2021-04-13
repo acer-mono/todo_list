@@ -44,7 +44,6 @@ export const remove = (payload: { id: string }): ActionRemove => ({
 export const edit = (payload: {
   id: string;
   title: string | undefined;
-  position: number | undefined;
   isChecked: boolean | undefined;
 }): ActionEdit => ({
   type: ACTION_TYPES.EDIT,
@@ -73,10 +72,10 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
   }
 });
 
-export const addElement = (title: string, position: number) => async (dispatch: AppDispatch) => {
+export const addElement = (title: string) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
   try {
-    const data = await api.todos.add({ title: title, position: position });
+    const data = await api.todos.add({ title });
     dispatch(create({ item: data }));
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
   } catch (e) {
@@ -101,7 +100,6 @@ export const editElement = (item: {
   id: string;
   isChecked: boolean | undefined;
   title: string | undefined;
-  position: number | undefined;
 }) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
   try {

@@ -25,13 +25,8 @@ export const List = () => {
     <>
       {requestState === REQUEST_STATUS.LOADING && 'Loading...'}
       <ul>
-        {list.map((item, index) => (
-          <ListItem
-            key={item.id}
-            item={item}
-            isFirst={index === 0}
-            isLast={index === list.length - 1}
-          />
+        {list.map(item => (
+          <ListItem key={item.id} item={item} />
         ))}
       </ul>
     </>

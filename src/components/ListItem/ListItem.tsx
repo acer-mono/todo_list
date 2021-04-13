@@ -6,11 +6,9 @@ import { editElement, removeElement } from '../../redux/actions';
 
 interface ListItemProps {
   item: Item;
-  isFirst: boolean;
-  isLast: boolean;
 }
 
-export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
+export const ListItem = ({ item }: ListItemProps) => {
   const isDone = { textDecoration: 'line-through' };
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
@@ -31,7 +29,6 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
           dispatch(
             editElement({
               id: item.id,
-              position: undefined,
               isChecked: !item.isChecked,
               title: undefined
             })
@@ -44,40 +41,6 @@ export const ListItem = ({ item, isFirst, isLast }: ListItemProps) => {
       <button data-testid="edit-cancel-button" onClick={() => setIsEdit(!isEdit)}>
         {!isEdit ? 'Edit' : 'Cancel'}
       </button>
-      {!isFirst && (
-        <button
-          data-testid="up"
-          onClick={() =>
-            dispatch(
-              editElement({
-                id: item.id,
-                position: item.position + 1,
-                title: undefined,
-                isChecked: undefined
-              })
-            )
-          }
-        >
-          ↑
-        </button>
-      )}
-      {!isLast && (
-        <button
-          data-testid="down"
-          onClick={() =>
-            dispatch(
-              editElement({
-                id: item.id,
-                position: item.position - 1,
-                title: undefined,
-                isChecked: undefined
-              })
-            )
-          }
-        >
-          ↓
-        </button>
-      )}
     </>
   );
 };

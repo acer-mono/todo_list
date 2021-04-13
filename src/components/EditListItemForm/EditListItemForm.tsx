@@ -27,8 +27,7 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
         editElement({
           id: item.id,
           title: name,
-          isChecked: undefined,
-          position: undefined
+          isChecked: undefined
         })
       );
     }

@@ -11,13 +11,12 @@ async function handleErrors(response: any) {
 }
 const api = {
   todos: {
-    add: ({ title, position }: { title: string; position: number }) =>
+    add: ({ title }: { title: string }) =>
       fetch(`${URL}/todos`, {
         method: 'POST',
         headers: defaultHeaders,
         body: JSON.stringify({
-          title,
-          position
+          title
         })
       }).then(handleErrors),
     list: () =>
@@ -28,13 +27,11 @@ const api = {
     update: ({
       id,
       isChecked,
-      title,
-      position
+      title
     }: {
       id: string;
       isChecked: boolean | undefined;
       title: string | undefined;
-      position: number | undefined;
     }) =>
       fetch(`${URL}/todos/${id}`, {
         method: 'PUT',
@@ -42,8 +39,7 @@ const api = {
         body: JSON.stringify({
           id,
           title,
-          isChecked,
-          position
+          isChecked
         })
       }).then(handleErrors),
     delete: (id: string) =>

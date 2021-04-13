@@ -16,7 +16,6 @@ export interface Item {
   id: string;
   isChecked: boolean;
   title: string;
-  position: number;
 }
 
 export type Store = {
@@ -56,9 +55,6 @@ export function reducer(previousState: Store = initialState, action: Action): St
             if (item.id === action.payload.id) {
               if (action.payload.title !== undefined) {
                 item.title = action.payload.title;
-              }
-              if (action.payload.position !== undefined) {
-                item.position = action.payload.position;
               }
               if (action.payload.isChecked !== undefined) {
                 item.isChecked = action.payload.isChecked;
@@ -103,41 +99,4 @@ export function reducer(previousState: Store = initialState, action: Action): St
     default:
       return previousState;
   }
-}
-
-export function changePosition(id: string, number: number, itemsList: Item[]) {
-  let previous;
-  let current = 0;
-  let temp;
-
-  if (number > 0) {
-    previous = 0;
-  } else {
-    previous = itemsList.length - 1;
-  }
-
-  let elms = itemsList.sort((el1, el2) => el1.position - el2.position);
-  for (let i = 0; i < elms.length; i++) {
-    if (elms[i].id === id) {
-      if (number > 0) {
-        if (i !== 0) {
-          previous = i - 1;
-        }
-        current = i;
-        break;
-      } else {
-        if (i !== itemsList.length - 1) {
-          previous = i + 1;
-        }
-        current = i;
-        break;
-      }
-    }
-  }
-
-  temp = elms[previous].position;
-  elms[previous].position = elms[current].position;
-  elms[current].position = temp;
-
-  return [...elms];
 }

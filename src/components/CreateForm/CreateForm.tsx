@@ -6,12 +6,10 @@ import { Store } from '../../redux/reducers/todos';
 export const CreateForm = () => {
   const [name, setName] = useState('');
   const requestState = useSelector((state: Store) => state.requestStatus);
-  const [position, setPosition] = useState(0);
   const dispatch = useDispatch();
 
   const createListItem = async () => {
-    dispatch(addElement(name, position));
-    setPosition(position => position + 1);
+    dispatch(addElement(name));
   };
 
   return (
