@@ -1,6 +1,8 @@
 import { changePosition, ITEM_STATE_FILTER, reducer } from './reducers/todos';
 import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
 import { ACTION_TYPES } from './actionTypes';
+import fetchMock from 'fetch-mock';
+import { makeTestStore } from '../setupTests';
 import {
   changeCategory,
   changeFilter,
@@ -10,7 +12,12 @@ import {
   changeState,
   edit,
   clearErrors,
-  addError
+  addError,
+  addElement,
+  REQUEST_STATUS,
+  getElements,
+  editElement,
+  removeElement
 } from './actions';
 
 describe('changePosition tests', () => {
@@ -336,5 +343,227 @@ describe('actions tests', () => {
       payload
     };
     expect(addError(payload)).toEqual(expectedAction);
+  });
+});
+
+describe('addElement tests', () => {
+  afterEach(() => fetchMock.reset());
+
+  test('success', async () => {
+    const title = 'empty';
+    const position = 10;
+    const element = {
+      id: '123',
+      title,
+      position,
+      isCheched: false
+    };
+
+    fetchMock.mock(
+      'http://localhost:3001/todos',
+      {
+        status: 200,
+        body: element
+      },
+      {
+        method: 'POST'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(addElement(title, position));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.CREATE, payload: { item: element } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.SUCCESS } }
+    ]);
+  });
+
+  test('failure', async () => {
+    const title = 'empty';
+    const position = 10;
+    const error = 'error';
+
+    fetchMock.mock(
+      'http://localhost:3001/todos',
+      {
+        status: 500,
+        body: {
+          error
+        }
+      },
+      {
+        method: 'POST'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(addElement(title, position));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+      { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+    ]);
+  });
+});
+
+describe('getElements tests', () => {
+  test('success', async () => {
+    const list = [
+      {
+        id: '123',
+        title: 'noname',
+        position: 1,
+        isCheched: false
+      }
+    ];
+    fetchMock.mock(
+      'http://localhost:3001/todos',
+      {
+        status: 200,
+        body: list
+      },
+      {
+        method: 'GET'
+      }
+    );
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(getElements());
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.SUCCESS } },
+      { type: ACTION_TYPES.LOAD_MESSAGES, payload: { list } }
+    ]);
+  });
+
+  test('failure', async () => {
+    const error = 'error';
+    fetchMock.mock(
+      'http://localhost:3001/todos',
+      {
+        status: 500,
+        body: { error }
+      },
+      {
+        method: 'GET'
+      }
+    );
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(getElements());
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+      { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+    ]);
+  });
+});
+
+describe('editElement tests', () => {
+  test('success', async () => {
+    const title = 'empty';
+    const position = 10;
+    const item = {
+      id: '123',
+      title,
+      position,
+      isCheched: false
+    };
+
+    fetchMock.mock(
+      `http://localhost:3001/todos/${item.id}`,
+      {
+        status: 200,
+        body: item
+      },
+      {
+        method: 'PUT'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(editElement(item));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.SUCCESS } },
+      { type: ACTION_TYPES.EDIT, payload: { ...item } }
+    ]);
+  });
+
+  test('failure', async () => {
+    const title = 'empty';
+    const position = 10;
+    const item = {
+      id: '123',
+      title,
+      position,
+      isCheched: false
+    };
+    const error = 'error';
+
+    fetchMock.mock(
+      `http://localhost:3001/todos/${item.id}`,
+      {
+        status: 500,
+        body: { error }
+      },
+      {
+        method: 'PUT'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(editElement(item));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+      { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+    ]);
+  });
+});
+
+describe('removeElement tests', () => {
+  test('success', async () => {
+    const id = '1';
+    fetchMock.mock(
+      `http://localhost:3001/todos/${id}`,
+      {
+        status: 200,
+        body: { id }
+      },
+      {
+        method: 'DELETE'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(removeElement(id));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.SUCCESS } },
+      { type: ACTION_TYPES.REMOVE, payload: { id } }
+    ]);
+  });
+
+  test('failure', async () => {
+    const id = '1';
+    const error = 'error';
+    fetchMock.mock(
+      `http://localhost:3001/todos/${id}`,
+      {
+        status: 500,
+        body: { error }
+      },
+      {
+        method: 'DELETE'
+      }
+    );
+
+    const store = makeTestStore({ useMockStore: true });
+    await store.dispatch(removeElement(id));
+    expect(store.getActions()).toEqual([
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.LOADING } },
+      { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+      { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+    ]);
   });
 });

@@ -53,7 +53,9 @@ const api = {
         body: JSON.stringify({
           id
         })
-      }).then(handleErrors),
+      }).then(handleErrors)
+  },
+  auth: {
     isAuth: () =>
       fetch(`${URL}/auth`, {
         method: 'GET',
