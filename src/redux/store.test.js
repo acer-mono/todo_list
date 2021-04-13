@@ -8,8 +8,6 @@ import {
   changeFilter,
   create,
   remove,
-  changePosition as changePos,
-  changeState,
   edit,
   clearErrors,
   addError,
@@ -64,9 +62,9 @@ describe('reducer test', () => {
   let state = null;
   beforeEach(() => {
     items = [
-      { id: '0', name: 'first', isDone: false, position: 0 },
-      { id: '1', name: 'second', isDone: false, position: 1 },
-      { id: '2', name: 'last', isDone: false, position: 2 }
+      { id: '0', title: 'first', isChecked: false, position: 0 },
+      { id: '1', title: 'second', isChecked: false, position: 1 },
+      { id: '2', title: 'last', isChecked: false, position: 2 }
     ];
     state = {
       filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
@@ -87,36 +85,6 @@ describe('reducer test', () => {
     const action = { type: ACTION_TYPES.REMOVE, payload: { id: '1000' } };
     const newItems = reducer(state, action);
     expect(newItems.list).toEqual(items);
-  });
-
-  test('change position of second item', () => {
-    const changePositionItem = items[1];
-    expect(changePositionItem.position).toBe(1);
-    const action = {
-      type: ACTION_TYPES.CHANGE_POSITION,
-      payload: { id: changePositionItem.id, number: 1 }
-    };
-    reducer(state, action);
-    expect(changePositionItem.position).toBe(0);
-  });
-
-  test('change state of item', () => {
-    const changeStateItem = items[1];
-    expect(changeStateItem.isDone).toBe(false);
-    const action = {
-      type: ACTION_TYPES.CHANGE_STATE,
-      payload: { id: changeStateItem.id, isDone: true }
-    };
-    reducer(state, action);
-    expect(changeStateItem.isDone).not.toBe(false);
-  });
-
-  test('edit item', () => {
-    const editItem = items[1];
-    expect(editItem.name).toBe('second');
-    const action = { type: ACTION_TYPES.EDIT, payload: { id: editItem.id, name: 'first' } };
-    reducer(state, action);
-    expect(editItem.name).toBe('first');
   });
 
   test('create new item', () => {
@@ -155,9 +123,9 @@ describe('selectListByFilter tests', () => {
   let items = null;
   beforeEach(() => {
     items = [
-      { id: '0', name: 'first', isDone: true, position: 0 },
-      { id: '1', name: 'second', isDone: false, position: 1 },
-      { id: '2', name: 'last', isDone: false, position: 2 }
+      { id: '0', title: 'first', isChecked: true, position: 0 },
+      { id: '1', title: 'second', isChecked: false, position: 1 },
+      { id: '2', title: 'last', isChecked: false, position: 2 }
     ];
   });
 
@@ -168,7 +136,7 @@ describe('selectListByFilter tests', () => {
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(1);
-    expect(newItems).toEqual(items.filter(el => el.isDone));
+    expect(newItems).toEqual(items.filter(el => el.isChecked));
   });
 
   test('get all elements', () => {
@@ -188,7 +156,7 @@ describe('selectListByFilter tests', () => {
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(2);
-    expect(newItems).toEqual(items.filter(el => !el.isDone));
+    expect(newItems).toEqual(items.filter(el => !el.isChecked));
   });
 
   test('get done element with active filter', () => {
@@ -225,9 +193,9 @@ describe('selectItemsCount tests', () => {
   let items = null;
   beforeEach(() => {
     items = [
-      { id: '0', name: 'first', isDone: true, position: 0 },
-      { id: '1', name: 'second', isDone: false, position: 1 },
-      { id: '2', name: 'last', isDone: false, position: 2 }
+      { id: '0', title: 'first', isChecked: true, position: 0 },
+      { id: '1', title: 'second', isChecked: false, position: 1 },
+      { id: '2', title: 'last', isChecked: false, position: 2 }
     ];
   });
 
@@ -247,9 +215,9 @@ describe('selectListTitles tests', () => {
   let items = null;
   beforeEach(() => {
     items = [
-      { id: '0', name: 'first', isDone: true, position: 0 },
-      { id: '1', name: 'second', isDone: false, position: 1 },
-      { id: '2', name: 'last', isDone: false, position: 2 }
+      { id: '0', title: 'first', isChecked: true, position: 0 },
+      { id: '1', title: 'second', isChecked: false, position: 1 },
+      { id: '2', title: 'last', isChecked: false, position: 2 }
     ];
   });
 
@@ -265,7 +233,7 @@ describe('selectListTitles tests', () => {
 
 describe('actions tests', () => {
   test('create', () => {
-    const payload = { id: '', isDone: false, name: 'string', position: 1 };
+    const payload = { id: '', isChecked: false, title: 'string', position: 1 };
     const expectedAction = {
       type: ACTION_TYPES.CREATE,
       payload
@@ -298,24 +266,6 @@ describe('actions tests', () => {
       payload
     };
     expect(remove(payload)).toEqual(expectedAction);
-  });
-
-  test('changePosition', () => {
-    const payload = { id: '', number: 1 };
-    const expectedAction = {
-      type: ACTION_TYPES.CHANGE_POSITION,
-      payload
-    };
-    expect(changePos(payload)).toEqual(expectedAction);
-  });
-
-  test('changeState', () => {
-    const payload = { id: '', isDone: true };
-    const expectedAction = {
-      type: ACTION_TYPES.CHANGE_STATE,
-      payload
-    };
-    expect(changeState(payload)).toEqual(expectedAction);
   });
 
   test('edit', () => {
@@ -408,6 +358,8 @@ describe('addElement tests', () => {
 });
 
 describe('getElements tests', () => {
+  afterEach(() => fetchMock.reset());
+
   test('success', async () => {
     const list = [
       {
@@ -459,6 +411,8 @@ describe('getElements tests', () => {
 });
 
 describe('editElement tests', () => {
+  afterEach(() => fetchMock.reset());
+
   test('success', async () => {
     const title = 'empty';
     const position = 10;
@@ -522,6 +476,8 @@ describe('editElement tests', () => {
 });
 
 describe('removeElement tests', () => {
+  afterEach(() => fetchMock.reset());
+
   test('success', async () => {
     const id = '1';
     fetchMock.mock(

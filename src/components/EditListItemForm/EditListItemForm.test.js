@@ -3,16 +3,17 @@ import { fireEvent, screen } from '@testing-library/react';
 import { EditListItem } from './EditListItemForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
+import { REQUEST_STATUS } from '../../redux/actions';
 
 const item = {
   id: '123',
-  name: 'first'
+  title: 'first'
 };
 
 describe('EditListItemForm tests', () => {
   let store;
   beforeEach(() => {
-    store = makeTestStore();
+    store = makeTestStore({ useMockStore: true });
   });
 
   test('form contains input with passed value and button', () => {
@@ -23,7 +24,7 @@ describe('EditListItemForm tests', () => {
 
     expect(form).toBeInTheDocument();
     expect(input).toBeInTheDocument();
-    expect(input).toHaveValue(item.name);
+    expect(input).toHaveValue(item.title);
     expect(button).toBeInTheDocument();
   });
 
@@ -38,25 +39,10 @@ describe('EditListItemForm tests', () => {
     fireEvent.input(input, { target: { value: field } });
     expect(store.dispatch).not.toBeCalled();
     fireEvent.submit(form);
-    expect(store.dispatch).toBeCalledWith({
-      type: ACTION_TYPES.EDIT,
-      payload: { id: item.id, name: field }
+    expect(store.getActions()[0]).toEqual({
+      type: ACTION_TYPES.SET_REQUEST_STATUS,
+      payload: { requestStatus: REQUEST_STATUS.LOADING }
     });
-    expect(closeItemHandler).toHaveBeenCalled();
-  });
-
-  test('submit form with empty title', () => {
-    const closeItemHandler = jest.fn();
-    const field = '';
-
-    testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
-    const form = screen.getByTestId('editForm');
-    const input = screen.getByTestId('edit-input');
-
-    fireEvent.input(input, { target: { value: field } });
-    expect(store.dispatch).not.toBeCalled();
-    fireEvent.submit(form);
-    expect(store.dispatch).not.toBeCalled();
     expect(closeItemHandler).toHaveBeenCalled();
   });
 
@@ -72,9 +58,9 @@ describe('EditListItemForm tests', () => {
     fireEvent.input(input, { target: { value: field } });
     expect(store.dispatch).not.toBeCalled();
     fireEvent.click(button);
-    expect(store.dispatch).toBeCalledWith({
-      type: ACTION_TYPES.EDIT,
-      payload: { id: item.id, name: field }
+    expect(store.getActions()[0]).toEqual({
+      type: ACTION_TYPES.SET_REQUEST_STATUS,
+      payload: { requestStatus: REQUEST_STATUS.LOADING }
     });
     expect(closeItemHandler).toHaveBeenCalled();
   });

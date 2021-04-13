@@ -3,12 +3,12 @@ import { fireEvent, screen } from '@testing-library/react';
 import { CreateForm } from './CreateForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
-import { addError } from '../../redux/actions';
+import { REQUEST_STATUS } from '../../redux/actions';
 
 describe('CreateForm tests', () => {
   let store;
   beforeEach(() => {
-    store = makeTestStore();
+    store = makeTestStore({ useMockStore: true });
   });
 
   test('create item with valid title', () => {
@@ -21,31 +21,10 @@ describe('CreateForm tests', () => {
     expect(input).toBeInTheDocument();
     expect(button).toBeInTheDocument();
     fireEvent.input(input, { target: { value: field } });
-    expect(store.dispatch).not.toBeCalled();
     fireEvent.click(button);
-
-    expect(store.dispatch).toBeCalledWith(
-      expect.objectContaining({
-        type: ACTION_TYPES.CREATE,
-        payload: {
-          item: expect.objectContaining({ name: field })
-        }
-      })
-    );
-  });
-
-  test('try to create item with empty title', () => {
-    testRender(<CreateForm />, { store });
-
-    const field = '';
-    const input = screen.queryByTestId('create-input');
-    const button = screen.queryByTestId('create-button');
-
-    fireEvent.input(input, { target: { value: field } });
-    fireEvent.click(button);
-
-    expect(store.dispatch).toBeCalledWith(
-      addError({ error: 'Название задачи не может быть пустым' })
-    );
+    expect(store.getActions()[0]).toEqual({
+      type: ACTION_TYPES.SET_REQUEST_STATUS,
+      payload: { requestStatus: REQUEST_STATUS.LOADING }
+    });
   });
 });

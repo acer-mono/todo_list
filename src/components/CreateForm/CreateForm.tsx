@@ -25,7 +25,7 @@ export const CreateForm = () => {
       <button
         data-testid="create-button"
         disabled={requestState === REQUEST_STATUS.LOADING}
-        onClick={() => createListItem()}
+        onClick={createListItem}
       >
         Добавить
       </button>

@@ -8,20 +8,20 @@ describe('Counter tests', () => {
   const list = [
     {
       id: '1',
-      isDone: true,
-      name: 'Hello',
+      isChecked: true,
+      title: 'Hello',
       position: 0
     },
     {
       id: '2',
-      isDone: false,
-      name: 'World',
+      isChecked: false,
+      title: 'World',
       position: 1
     }
   ];
   test('Counter shows valid info', () => {
     const state = { ...initialState, list };
-    const store = makeTestStore({ initialState: state });
+    const store = makeTestStore({ initialState: state, useMockStore: true });
     testRender(<Counter />, { store });
     const componentAll = screen.getByTestId('counter-all');
     const componentDone = screen.getByTestId('counter-done');
