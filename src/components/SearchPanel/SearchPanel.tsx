@@ -1,32 +1,47 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeFilter } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeCategory, changeFilter } from '../../redux/actions';
+import { ITEM_STATE_FILTER, Store } from '../../redux/reducers/todos';
+import { selectItemsCount } from '../../redux/selectors';
+import './SearchPanel.css';
 
-export const SearchPanel = () => {
+interface SearchPanelType {
+  filterValues: typeof ITEM_STATE_FILTER;
+}
+
+export const SearchPanel = ({ filterValues }: SearchPanelType) => {
   const [search, setSearch] = useState('');
+  const items = useSelector(selectItemsCount);
+  const currentItemState = useSelector((store: Store) => store.filterParams.category);
   const dispatch = useDispatch();
 
   return (
-    <form
-      action=""
-      onSubmit={e => {
-        e.preventDefault();
-        dispatch(
-          changeFilter({
-            searchString: search
-          })
-        );
-      }}
-    >
+    <>
       <input
         data-testid="search-input"
         type="text"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={e => {
+          dispatch(
+            changeFilter({
+              searchString: e.target.value
+            })
+          );
+          setSearch(e.target.value);
+        }}
       />
-      <button data-testid="search-button" type="submit">
-        Search
-      </button>
-    </form>
+
+      {Object.entries(filterValues).map(([key, value]) => (
+        <a
+          className={currentItemState === value ? 'selectedOption' : undefined}
+          data-testid={'option' + value}
+          key={key}
+          role="option"
+          onClick={() => dispatch(changeCategory({ category: value }))}
+        >
+          {value}({items[value]})
+        </a>
+      ))}
+    </>
   );
 };

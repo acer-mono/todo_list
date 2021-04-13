@@ -3,10 +3,8 @@ import { selectErrors } from '../redux/selectors';
 import { Alert } from '../components/Alert/Alert';
 import { clearErrors } from '../redux/actions';
 import { CreateForm } from '../components/CreateForm/CreateForm';
-import { CategorySelect } from '../components/CategorySelect/CategorySelect';
 import { ITEM_STATE_FILTER } from '../redux/reducers/todos';
 import { SearchPanel } from '../components/SearchPanel/SearchPanel';
-import { Counter } from '../components/Counter/Counter';
 import { List } from '../components/List/List';
 import React from 'react';
 
@@ -24,11 +22,9 @@ export const Todos = () => {
         </div>
         <div>
           <CreateForm />
-          <CategorySelect filterValues={ITEM_STATE_FILTER} />
           <br />
-          <SearchPanel />
+          <SearchPanel filterValues={ITEM_STATE_FILTER} />
           <br />
-          <Counter />
           <List />
         </div>
       </div>
