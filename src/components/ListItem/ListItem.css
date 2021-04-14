@@ -1,0 +1,16 @@
+.button {
+    padding: .5rem;
+    border: none;
+    outline: none;
+    border-radius: .2rem;
+}
+
+.button-edit {
+    background: rgb(243,185,62);
+    color: white;
+}
+
+.button-remove {
+    background: rgb(229,94,86);
+    color: white;
+}

@@ -1,8 +1,16 @@
 .alert {
     position: absolute;
-    background: cyan;
+    background: rgb(223,101,89);
     min-width: 100px;
     min-height: 100px;
-    top:50%;
-    left: 50%;
+    top:0%;
+    left: 96%;
+    color: white;
+}
+
+.close {
+    background: none;
+    color: white;
+    border: none;
+    outline: none;
 }

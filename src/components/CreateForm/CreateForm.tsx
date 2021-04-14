@@ -33,7 +33,7 @@ export const CreateForm = () => {
         disabled={requestState === REQUEST_STATUS.LOADING}
         onClick={createListItem}
       >
-        Добавить
+        Add
       </button>
     </>
   );

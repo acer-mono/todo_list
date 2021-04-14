@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import './Alert.css';
+import { CgClose } from 'react-icons/all';
 
 type AlertProps = {
   messages: string[];
@@ -19,13 +20,13 @@ export const Alert = ({ messages, delay, onClose }: AlertProps) => {
 
   if (messages.length) {
     return (
-      <div className="alert" data-testid="alert">
-        <button onClick={onClose} data-testid="alert-close">
-          Close
-        </button>
+      <div data-testid="alert">
         {messages.map((error, index) => (
-          <div key={index} data-testid="error">
-            {error}
+          <div key={index} className="alert">
+            <button className="close" onClick={onClose} data-testid="alert-close">
+              <CgClose />
+            </button>
+            <div data-testid="error">{error}</div>
           </div>
         ))}
       </div>
