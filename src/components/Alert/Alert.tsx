@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
-import './Alert.css';
-import { CgClose } from 'react-icons/all';
-import { Error } from '../../redux/reducers/todos';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearErrors } from '../../redux/actions';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { selectErrors } from '../../redux/selectors';
+import { AlertItem } from '../AlertItem/AlertItem';
 
 type AlertProps = {
   delay: number;
@@ -24,32 +21,4 @@ export const Alert = ({ delay }: AlertProps) => {
   } else {
     return null;
   }
-};
-
-type AlertItemProps = {
-  error: Error;
-  delay: number;
-};
-
-export const AlertItem = ({ error, delay }: AlertItemProps) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    let timer = setTimeout(() => dispatch(clearErrors({ id: error.id })), delay);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  return (
-    <div key={error.id} className="alert">
-      <button
-        className="close"
-        onClick={() => dispatch(clearErrors({ id: error.id }))}
-        data-testid="alert-close"
-      >
-        <CgClose />
-      </button>
-      <div data-testid="error">{error.title}</div>
-    </div>
-  );
 };
