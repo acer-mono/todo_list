@@ -3,7 +3,7 @@ import { EditListItem } from '../EditListItemForm/EditListItemForm';
 import { useDispatch } from 'react-redux';
 import { Item } from '../../redux/reducers/todos';
 import { editElement, removeElement } from '../../redux/actions';
-import { BsTrash, FaEdit } from 'react-icons/all';
+import { FaTrash, FaEdit } from 'react-icons/fa';
 import './ListItem.css';
 
 interface ListItemProps {
@@ -50,7 +50,7 @@ export const ListItem = ({ item }: ListItemProps) => {
             data-testid="remove-button"
             onClick={() => dispatch(removeElement(item.id))}
           >
-            <BsTrash />
+            <FaTrash />
           </button>
           <button
             className="button button-edit"

@@ -16,12 +16,12 @@ describe('CreateForm tests', () => {
 
     const field = 'some text';
     const input = screen.getByTestId('create-input');
-    const button = screen.getByTestId('create-button');
+    const form = screen.getByTestId('create-form');
 
     expect(input).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
+    expect(form).toBeInTheDocument();
     fireEvent.input(input, { target: { value: field } });
-    fireEvent.click(button);
+    fireEvent.submit(form);
     expect(store.getActions()[0]).toEqual({
       type: ACTION_TYPES.SET_REQUEST_STATUS,
       payload: { requestStatus: REQUEST_STATUS.LOADING }

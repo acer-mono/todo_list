@@ -1,4 +1,4 @@
-import { changePosition, ITEM_STATE_FILTER, reducer } from './reducers/todos';
+import { ITEM_STATE_FILTER, reducer } from './reducers/todos';
 import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
 import { ACTION_TYPES } from './actionTypes';
 import fetchMock from 'fetch-mock';
@@ -76,7 +76,7 @@ describe('reducer test', () => {
     const action = { type: ACTION_TYPES.ADD_ERROR, payload: { error: '1' } };
     const newItems = reducer(state, action);
     expect(newItems.errors).toHaveLength(1);
-    expect(newItems.errors).toContain('1');
+    expect(newItems.errors).toMatchObject([{ id: expect.any(String), title: '1' }]);
   });
 });
 

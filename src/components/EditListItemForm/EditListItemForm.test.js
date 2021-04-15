@@ -46,7 +46,7 @@ describe('EditListItemForm tests', () => {
     expect(closeItemHandler).toHaveBeenCalled();
   });
 
-  test('click on submit button', () => {
+  test('click on close button', () => {
     const closeItemHandler = jest.fn();
     const field = 'some new title';
 
@@ -58,26 +58,6 @@ describe('EditListItemForm tests', () => {
     fireEvent.input(input, { target: { value: field } });
     expect(store.dispatch).not.toBeCalled();
     fireEvent.click(button);
-    expect(store.getActions()[0]).toEqual({
-      type: ACTION_TYPES.SET_REQUEST_STATUS,
-      payload: { requestStatus: REQUEST_STATUS.LOADING }
-    });
-    expect(closeItemHandler).toHaveBeenCalled();
-  });
-
-  test('focusOut from input', () => {
-    const closeItemHandler = jest.fn();
-    const field = 'some new title';
-
-    testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
-
-    const input = screen.getByTestId('edit-input');
-    fireEvent.input(input, { target: { value: field } });
-
-    expect(store.dispatch).not.toBeCalled();
-    fireEvent.focusIn(input);
-    fireEvent.focusOut(input);
-    expect(store.dispatch).not.toBeCalled();
     expect(closeItemHandler).toHaveBeenCalled();
   });
 });

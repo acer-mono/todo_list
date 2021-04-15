@@ -2,7 +2,7 @@ import { Error } from '../../redux/reducers/todos';
 import { useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { clearErrors } from '../../redux/actions';
-import { CgClose } from 'react-icons/all';
+import { FaWindowClose } from 'react-icons/fa';
 import './AlertItem.css';
 
 type AlertItemProps = {
@@ -26,7 +26,7 @@ export const AlertItem = ({ error, delay }: AlertItemProps) => {
         onClick={() => dispatch(clearErrors({ id: error.id }))}
         data-testid="alert-close"
       >
-        <CgClose />
+        <FaWindowClose />
       </button>
       <div data-testid="error">{error.title}</div>
     </div>

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Item } from '../../redux/reducers/todos';
 import { editElement } from '../../redux/actions';
 import './EditListItem.css';
-import { CgClose } from 'react-icons/all';
+import { FaWindowClose } from 'react-icons/fa';
 
 interface EditListItemFormProps {
   item: Item;
@@ -50,7 +50,7 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
           data-testid="edit-button"
           onClick={closeItem}
         >
-          <CgClose />
+          <FaWindowClose />
         </button>
       </form>
     </div>
