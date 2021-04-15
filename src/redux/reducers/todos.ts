@@ -1,5 +1,6 @@
 import { Action, ACTION_TYPES } from '../actionTypes';
 import { REQUEST_STATUS } from '../actions';
+import { nanoid } from 'nanoid';
 
 export const ITEM_STATE_FILTER = {
   ALL: 'All',
@@ -18,9 +19,14 @@ export interface Item {
   title: string;
 }
 
+export interface Error {
+  id: string;
+  title: string;
+}
+
 export type Store = {
   requestStatus: REQUEST_STATUS;
-  errors: string[];
+  errors: Error[];
   list: Item[];
   filterParams: {
     category: ITEM_STATE_FILTER_TYPE;
@@ -81,11 +87,18 @@ export function reducer(previousState: Store = initialState, action: Action): St
     }
 
     case ACTION_TYPES.CLEAR_ERRORS: {
-      return { ...previousState, errors: [] };
+      return {
+        ...previousState,
+        errors: previousState.errors.filter((error: Error) => error.id != action.payload.id)
+      };
     }
 
     case ACTION_TYPES.ADD_ERROR: {
-      return { ...previousState, errors: [...previousState.errors, action.payload.error] };
+      const error = {
+        id: nanoid(),
+        title: action.payload.error
+      };
+      return { ...previousState, errors: [...previousState.errors, error] };
     }
 
     case ACTION_TYPES.LOAD_MESSAGES: {

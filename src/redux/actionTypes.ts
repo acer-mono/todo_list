@@ -31,7 +31,7 @@ export type ActionChangeRequestStatus = {
 
 export type ActionClearErrors = {
   type: typeof ACTION_TYPES.CLEAR_ERRORS;
-  payload: {};
+  payload: { id: string };
 };
 
 export type ActionLoadMessages = {

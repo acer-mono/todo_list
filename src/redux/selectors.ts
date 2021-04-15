@@ -1,4 +1,4 @@
-import { Item, ITEM_STATE_FILTER, ITEM_STATE_FILTER_TYPE, Store } from './reducers/todos';
+import { Error, Item, ITEM_STATE_FILTER, ITEM_STATE_FILTER_TYPE, Store } from './reducers/todos';
 import { createSelector } from 'reselect';
 
 export function selectListByItemState(list: Item[], itemState: ITEM_STATE_FILTER_TYPE): Item[] {
@@ -26,7 +26,7 @@ export const selectListByFilter = createSelector(
 
 export const selectErrors = createSelector(
   (state: Store) => state.errors,
-  (errors: string[]) => errors
+  (errors: Error[]) => errors
 );
 
 export const selectItemsCount = createSelector(

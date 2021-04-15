@@ -1,14 +1,30 @@
+@keyframes example {
+    from {opacity: 1; bottom: 0;}
+    to {opacity: 0; bottom: 20%;}
+}
 .alert {
+    display: grid;
+    grid-template-rows: 1fr 2fr;
+    text-align: center;
+    width: 400px;
     position: absolute;
+    padding: 1rem;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: rgb(223,101,89);
     min-width: 100px;
     min-height: 100px;
-    top:0%;
-    left: 96%;
     color: white;
+    font-size: 2rem;
+    border-radius: 2rem;
+    animation-name: example;
+    animation-duration: 3s;
 }
 
 .close {
+    text-align: end;
+    font-size: 2rem;
     background: none;
     color: white;
     border: none;

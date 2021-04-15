@@ -29,6 +29,7 @@ export const CreateForm = () => {
           data-testid="create-input"
           type="text"
           value={name}
+          disabled={requestState == REQUEST_STATUS.LOADING}
           placeholder="Type here to add"
           onChange={event => setName(event.target.value)}
         />

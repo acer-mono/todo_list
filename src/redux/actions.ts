@@ -50,7 +50,7 @@ export const edit = (payload: {
   payload
 });
 
-export const clearErrors = (payload: {}): ActionClearErrors => ({
+export const clearErrors = (payload: { id: string }): ActionClearErrors => ({
   type: ACTION_TYPES.CLEAR_ERRORS,
   payload
 });
