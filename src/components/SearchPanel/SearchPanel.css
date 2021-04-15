@@ -1,10 +1,11 @@
 .selectedOption {
-    color: red;
+    color: red !important;
 }
 
 .option-item {
     font-size: 1.5rem;
     cursor: pointer;
+    color: #555555;
 }
 
 .search-field {

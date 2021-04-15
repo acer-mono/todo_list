@@ -18,7 +18,6 @@
     position: relative;
     width: 900px;
     height: 900px;
-    margin: 0 auto;
     background: rgb(255,255,251);
     border-top-left-radius: 3rem;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
@@ -32,6 +31,7 @@
 .header-main {
     font-size: 3rem;
     text-align: center;
+    color: #555555;
 }
 
 .pin {
