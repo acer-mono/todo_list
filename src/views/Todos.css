@@ -1,10 +1,59 @@
+/* width */
+::-webkit-scrollbar {
+    width: .5rem;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: .2rem;
+    background: rgb(165,218,230);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(229,94,86);
+    border-radius: .2rem;
+}
+
 .wrapper {
+    position: relative;
     width: 900px;
     height: 900px;
     margin: 0 auto;
-    background: rgba(255,255,251, 0.9);
+    background: rgb(255,255,251);
+    border-top-left-radius: 3rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    padding: 1rem;
 }
 
 .wrapper div {
     margin: 10px;
+}
+
+.header-main {
+    font-size: 3rem;
+    text-align: center;
+}
+
+.pin {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 6rem;
+}
+
+.content-main {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 2fr 10fr 1fr;
+}
+
+.list-items {
+    overflow-y: scroll;
+}
+
+.search-form {
+    width: 100%;
+}
+
+.create-form {
 }

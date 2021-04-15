@@ -18,6 +18,8 @@ export const SearchPanel = ({ filterValues }: SearchPanelType) => {
   return (
     <>
       <input
+        className="search-field"
+        placeholder="Type here to search"
         data-testid="search-input"
         type="text"
         value={search}
@@ -30,18 +32,19 @@ export const SearchPanel = ({ filterValues }: SearchPanelType) => {
           setSearch(e.target.value);
         }}
       />
-
-      {Object.entries(filterValues).map(([key, value]) => (
-        <a
-          className={currentItemState === value ? 'selectedOption' : undefined}
-          data-testid={'option' + value}
-          key={key}
-          role="option"
-          onClick={() => dispatch(changeCategory({ category: value }))}
-        >
-          {value}({items[value]})
-        </a>
-      ))}
+      <div className="option-wrapper">
+        {Object.entries(filterValues).map(([key, value]) => (
+          <a
+            className={currentItemState === value ? 'selectedOption option-item' : 'option-item'}
+            data-testid={'option' + value}
+            key={key}
+            role="option"
+            onClick={() => dispatch(changeCategory({ category: value }))}
+          >
+            {value} ({items[value]})
+          </a>
+        ))}
+      </div>
     </>
   );
 };

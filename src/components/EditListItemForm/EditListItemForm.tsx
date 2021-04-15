@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Item } from '../../redux/reducers/todos';
 import { editElement } from '../../redux/actions';
+import './EditListItem.css';
+import { CgClose } from 'react-icons/all';
 
 interface EditListItemFormProps {
   item: Item;
@@ -37,11 +39,13 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
   return (
     <div>
       <form
+        className="edit-list-item-form"
         data-testid="editForm"
         action=""
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => submitHandler(e)}
       >
         <input
+          className="edit-list-item-input"
           data-testid="edit-input"
           type="text"
           value={name}
@@ -50,8 +54,13 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
           }}
           onBlur={e => blurHandler(e)}
         />
-        <button data-testid="edit-button" ref={button} type="submit">
-          Save
+        <button
+          className="edit-list-item-button"
+          data-testid="edit-button"
+          ref={button}
+          onClick={closeItem}
+        >
+          <CgClose />
         </button>
       </form>
     </div>

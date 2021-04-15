@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addElement, REQUEST_STATUS, setRequestStatus } from '../../redux/actions';
 import { Store } from '../../redux/reducers/todos';
+import './CreateForm.css';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
@@ -22,19 +23,16 @@ export const CreateForm = () => {
 
   return (
     <>
-      <input
-        data-testid="create-input"
-        type="text"
-        value={name}
-        onChange={event => setName(event.target.value)}
-      />
-      <button
-        data-testid="create-button"
-        disabled={requestState === REQUEST_STATUS.LOADING}
-        onClick={createListItem}
-      >
-        Add
-      </button>
+      <form action="#" onSubmit={createListItem}>
+        <input
+          className="create-field"
+          data-testid="create-input"
+          type="text"
+          value={name}
+          placeholder="Type here to add"
+          onChange={event => setName(event.target.value)}
+        />
+      </form>
     </>
   );
 };

@@ -1,8 +1,11 @@
 .button {
-    padding: .5rem;
+    display: inline-flex;
+    font-size: 1.5rem;
+    padding: 1rem;
     border: none;
     outline: none;
     border-radius: .2rem;
+    align-content: center;
 }
 
 .button-edit {
@@ -13,4 +16,80 @@
 .button-remove {
     background: rgb(229,94,86);
     color: white;
+}
+
+.label-for-checkbox {
+    font-size: 2rem;
+    color: #747474;
+}
+
+.checkbox {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.checkbox+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+
+.checkbox+label::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid rgb(243,185,59);
+    border-radius: 2rem;
+    margin-right: 1rem;
+    margin-left: 0.5rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+}
+
+.checkbox:checked+label::before {
+    border-color: rgb(165,218,230);
+    background-color: rgb(165,218,230);
+    background-image: url("./tick.svg");
+}
+
+/* стили при наведении курсора на checkbox */
+.checkbox:not(:disabled):not(:checked)+label:hover::before {
+    border-color: rgb(243,185,59);
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.checkbox:not(:disabled):active+label::before {
+    background-color: rgb(243,185,59);
+    border-color: rgb(243,185,59);
+}
+/* стили для чекбокса, находящегося в фокусе */
+.checkbox:focus+label::before {
+    box-shadow: 0 0 0 0.2rem rgb(243,185,59);
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.checkbox:focus:not(:checked)+label::before {
+    border-color: rgb(243,185,59);
+}
+/* стили для чекбокса, находящегося в состоянии disabled */
+.checkbox:disabled+label::before {
+    background-color: #e9ecef;
+}
+
+.item-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-item-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.item-container {
+    max-width: 70%;
+    overflow: hidden;
 }

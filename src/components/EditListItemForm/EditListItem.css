@@ -1,0 +1,26 @@
+.edit-list-item-form {
+    position: relative;
+    background: rgb(227,239,229);
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.edit-list-item-input {
+    font-family: IndieFlower, serif;
+    padding: .5rem;
+    border-radius: 1rem;
+    font-size: 2rem;
+    outline: none;
+    border: none;
+}
+
+.edit-list-item-button {
+    position: absolute;
+    top: .5rem;
+    right: .1rem;
+    background: none;
+    outline: none;
+    border: none;
+    color: rgb(6,4,15);
+    font-size: 1.5rem;
+}

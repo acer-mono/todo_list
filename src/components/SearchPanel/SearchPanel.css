@@ -1,3 +1,22 @@
 .selectedOption {
     color: red;
 }
+
+.option-item {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.search-field {
+    font-family: IndieFlower, serif;
+    font-size: 2rem;
+    outline: none;
+    border: none;
+    width: 100%;
+    background: rgb(255,255,251);
+}
+
+.option-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
