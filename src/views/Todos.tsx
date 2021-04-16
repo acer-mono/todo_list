@@ -7,7 +7,7 @@ import pin from './pin.png';
 
 export const Todos = () => {
   return (
-    <div className="wrapper">
+    <div className="todo-wrapper">
       <img className="pin" src={pin} alt="pin" />
       <div className="content-main">
         <div className="header-main">Todo List</div>

@@ -14,7 +14,7 @@
     border-radius: .2rem;
 }
 
-.wrapper {
+.todo-wrapper {
     position: relative;
     width: 900px;
     height: 900px;
@@ -24,7 +24,7 @@
     padding: 1rem;
 }
 
-.wrapper div {
+.todo-wrapper div {
     margin: 10px;
 }
 

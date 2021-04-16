@@ -28,7 +28,7 @@ export const EditListItem = ({ item, closeItem }: EditListItemFormProps) => {
   }
 
   return (
-    <div>
+    <div className="edit-list-item-background">
       <form
         className="edit-list-item-form"
         data-testid="editForm"
