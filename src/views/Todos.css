@@ -24,7 +24,7 @@
     padding: 1rem;
 }
 
-.todo-wrapper div {
+.todo-wrapper div:not(.edit-list-item-background):not(.) {
     margin: 10px;
 }
 
