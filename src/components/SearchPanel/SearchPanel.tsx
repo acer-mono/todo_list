@@ -4,7 +4,7 @@ import { changeCategory, changeFilter } from '../../redux/actions';
 import { selectItemsCount } from '../../redux/selectors';
 import './SearchPanel.css';
 import { ITEM_STATE_FILTER } from '../../redux/reducers/filter';
-import { Store } from '../../redux/store';
+import { Store } from '../../redux';
 
 interface SearchPanelType {
   filterValues: typeof ITEM_STATE_FILTER;

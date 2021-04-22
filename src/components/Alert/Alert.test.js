@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from './Alert';
 import { screen } from '@testing-library/react';
 import { makeTestStore, testRender } from '../../setupTests';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 
 describe('Alert tests', () => {
   test('Alert is shown', () => {

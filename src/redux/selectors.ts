@@ -1,7 +1,7 @@
 import { Error, Item } from './reducers/todos';
 import { createSelector } from 'reselect';
 import { ITEM_STATE_FILTER_TYPE, ITEM_STATE_FILTER } from './reducers/filter';
-import { Store } from './store';
+import { Store } from '.';
 
 export function selectListByItemState(list: Item[], itemState: ITEM_STATE_FILTER_TYPE): Item[] {
   switch (itemState) {

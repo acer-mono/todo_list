@@ -11,7 +11,7 @@ import {
   ActionRemove
 } from './actionTypes';
 import { Item } from './reducers/todos';
-import { AppDispatch } from './store';
+import { AppDispatch } from '.';
 import api from '../components/api';
 
 export enum REQUEST_STATUS {

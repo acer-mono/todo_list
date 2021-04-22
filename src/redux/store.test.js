@@ -1,7 +1,8 @@
-import { rootReducer } from './store';
+import { rootReducer } from './';
 import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
 import { ITEM_STATE_FILTER } from './reducers/filter';
 import { ACTION_TYPES } from './actionTypes';
+import { REQUEST_STATUS } from './actions';
 import fetchMock from 'fetch-mock';
 import { makeTestStore } from '../setupTests';
 import {
@@ -13,7 +14,6 @@ import {
   clearErrors,
   addError,
   addElement,
-  REQUEST_STATUS,
   getElements,
   editElement,
   removeElement

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Spinner from './components/Spinner/Spinner';
 import { REQUEST_STATUS } from './redux/actions';
 import { Alert } from './components/Alert/Alert';
-import { Store } from './redux/store';
+import { Store } from './redux';
 
 function App() {
   const isLoading = useSelector((store: Store) => store.todo.requestStatus);

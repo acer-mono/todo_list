@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { AlertItem } from './AlertItem';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 
 describe('AlertItem tests', () => {
   test('clear errors action is called after delay', () => {

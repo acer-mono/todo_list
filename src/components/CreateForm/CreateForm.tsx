@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addElement, REQUEST_STATUS, setRequestStatus } from '../../redux/actions';
 import './CreateForm.css';
-import { Store } from '../../redux/store';
+import { Store } from '../../redux';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
