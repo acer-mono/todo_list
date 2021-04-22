@@ -13,6 +13,7 @@ import {
 import { Item } from './reducers/todos';
 import { AppDispatch } from '.';
 import api from '../components/api';
+import { push } from 'connected-react-router';
 
 export enum REQUEST_STATUS {
   IDLE,
@@ -118,6 +119,31 @@ export const removeElement = (id: string) => async (dispatch: AppDispatch) => {
     await api.todos.delete(id);
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
     dispatch(remove({ id: id }));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
+  }
+};
+
+export const initialAuthCheck = () => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  try {
+    await api.auth.isAuth();
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(push('/'));
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(push('/login'));
+    dispatch(addError({ error: e.message }));
+  }
+};
+
+export const login = (login: string, password: string) => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  try {
+    await api.auth.login(login, password);
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(push('/'));
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
     dispatch(addError({ error: e.message }));

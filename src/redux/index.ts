@@ -4,6 +4,7 @@ import createRootReducer from './reducers';
 import { todoInitialState, TodoSlice } from './reducers/todos';
 import { filterInitialState, FilterSlice } from './reducers/filter';
 import { createBrowserHistory } from 'history';
+import { routerMiddleware } from 'connected-react-router';
 
 export const history = createBrowserHistory();
 
@@ -19,6 +20,6 @@ export const initialState: Store = {
 
 export const rootReducer = createRootReducer(history);
 
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, routerMiddleware(history)));
 export type AppDispatch = typeof store.dispatch;
 export default store;
