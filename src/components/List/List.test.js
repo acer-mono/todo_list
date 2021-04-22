@@ -4,7 +4,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 
 describe('List tests', () => {
   test('pass two items', () => {

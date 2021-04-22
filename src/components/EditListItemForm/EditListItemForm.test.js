@@ -4,7 +4,7 @@ import { EditListItem } from './EditListItemForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 
 const item = {
   id: '123',

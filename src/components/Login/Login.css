@@ -1,0 +1,33 @@
+.login-form {
+    background: white;
+    border-radius: 3rem;
+    padding: 3rem;
+}
+
+.login-input {
+    padding: 1rem;
+    font-size: 2rem;
+    font-family: IndieFlower, serif;
+    display: block;
+    outline: none;
+    border: none;
+}
+
+.login-header {
+    color: rgb(85,85,85);
+    text-align: center;
+}
+
+.login-submit {
+    width: 100%;
+    display: block;
+    padding: 1rem;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: IndieFlower, serif;
+    background: rgb(147,236,197);
+    outline: none;
+    border: none;
+    border-radius: 1rem;
+}

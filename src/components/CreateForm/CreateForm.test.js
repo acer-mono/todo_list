@@ -4,7 +4,7 @@ import { CreateForm } from './CreateForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 
 describe('CreateForm tests', () => {
   let store;

@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react';
 import { SearchPanel } from './SearchPanel';
 import { makeTestStore, testRender } from '../../setupTests';
 import { ACTION_TYPES } from '../../redux/actionTypes';
-import { initialState } from '../../redux/store';
+import { initialState } from '../../redux';
 import { ITEM_STATE_FILTER } from '../../redux/reducers/filter';
 
 describe('SearchPanel tests', () => {
