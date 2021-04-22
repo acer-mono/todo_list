@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeCategory, changeFilter } from '../../redux/actions';
-import { ITEM_STATE_FILTER, Store } from '../../redux/reducers/todos';
 import { selectItemsCount } from '../../redux/selectors';
 import './SearchPanel.css';
+import { ITEM_STATE_FILTER } from '../../redux/reducers/filter';
+import { Store } from '../../redux/store';
 
 interface SearchPanelType {
   filterValues: typeof ITEM_STATE_FILTER;
@@ -12,7 +13,7 @@ interface SearchPanelType {
 export const SearchPanel = ({ filterValues }: SearchPanelType) => {
   const [search, setSearch] = useState('');
   const items = useSelector(selectItemsCount);
-  const currentItemState = useSelector((store: Store) => store.filterParams.category);
+  const currentItemState = useSelector((store: Store) => store.filter.category);
   const dispatch = useDispatch();
 
   return (

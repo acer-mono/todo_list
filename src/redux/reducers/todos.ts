@@ -2,17 +2,6 @@ import { Action, ACTION_TYPES } from '../actionTypes';
 import { REQUEST_STATUS } from '../actions';
 import { nanoid } from 'nanoid';
 
-export const ITEM_STATE_FILTER = {
-  ALL: 'All',
-  DONE: 'Done',
-  NOT_DONE: 'Not done'
-};
-
-export type ITEM_STATE_FILTER_TYPE =
-  | typeof ITEM_STATE_FILTER.ALL
-  | typeof ITEM_STATE_FILTER.DONE
-  | typeof ITEM_STATE_FILTER.NOT_DONE;
-
 export interface Item {
   id: string;
   isChecked: boolean;
@@ -24,40 +13,32 @@ export interface Error {
   title: string;
 }
 
-export type Store = {
+export type TodoSlice = {
+  list: Item[];
   requestStatus: REQUEST_STATUS;
   errors: Error[];
-  list: Item[];
-  filterParams: {
-    category: ITEM_STATE_FILTER_TYPE;
-    searchString: string;
-  };
 };
 
-export const initialState: Store = {
-  requestStatus: REQUEST_STATUS.IDLE,
-  errors: [],
+export const todoInitialState: TodoSlice = {
   list: [],
-  filterParams: {
-    category: ITEM_STATE_FILTER.ALL,
-    searchString: ''
-  }
+  requestStatus: REQUEST_STATUS.IDLE,
+  errors: []
 };
 
-export function reducer(previousState: Store = initialState, action: Action): Store {
+export function todosReducer(state: TodoSlice = todoInitialState, action: Action): TodoSlice {
   switch (action.type) {
     case ACTION_TYPES.REMOVE: {
       return {
-        ...previousState,
-        list: [...previousState.list.filter(el => el.id !== action.payload.id)]
+        ...state,
+        list: [...state.list.filter(el => el.id !== action.payload.id)]
       };
     }
 
     case ACTION_TYPES.EDIT: {
       return {
-        ...previousState,
+        ...state,
         list: [
-          ...previousState.list.map(item => {
+          ...state.list.map(item => {
             if (item.id === action.payload.id) {
               if (action.payload.title !== undefined) {
                 item.title = action.payload.title;
@@ -73,23 +54,13 @@ export function reducer(previousState: Store = initialState, action: Action): St
     }
 
     case ACTION_TYPES.CREATE: {
-      return { ...previousState, list: [...previousState.list, action.payload.item] };
-    }
-
-    case ACTION_TYPES.FILTER_CHANGED: {
-      previousState.filterParams.searchString = action.payload.searchString;
-      return { ...previousState };
-    }
-
-    case ACTION_TYPES.CATEGORY_CHANGED: {
-      previousState.filterParams.category = action.payload.category;
-      return { ...previousState };
+      return { ...state, list: [...state.list, action.payload.item] };
     }
 
     case ACTION_TYPES.CLEAR_ERRORS: {
       return {
-        ...previousState,
-        errors: previousState.errors.filter((error: Error) => error.id != action.payload.id)
+        ...state,
+        errors: state.errors.filter((error: Error) => error.id != action.payload.id)
       };
     }
 
@@ -98,18 +69,18 @@ export function reducer(previousState: Store = initialState, action: Action): St
         id: nanoid(),
         title: action.payload.error
       };
-      return { ...previousState, errors: [...previousState.errors, error] };
+      return { ...state, errors: [...state.errors, error] };
     }
 
     case ACTION_TYPES.LOAD_MESSAGES: {
-      return { ...previousState, list: action.payload.list };
+      return { ...state, list: action.payload.list };
     }
 
     case ACTION_TYPES.SET_REQUEST_STATUS: {
-      return { ...previousState, requestStatus: action.payload.requestStatus };
+      return { ...state, requestStatus: action.payload.requestStatus };
     }
 
     default:
-      return previousState;
+      return state;
   }
 }

@@ -9,14 +9,11 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@skbkontur/react-icons": "^5.0.0",
     "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.4",
     "@testing-library/user-event": "^12.6.3",
     "nanoid": "^3.1.22",
     "node-fetch": "^2.6.1",
-    "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "reactfire": "^3.0.0-rc.0",
@@ -28,6 +25,7 @@
     "typescript": "^4.2.2"
   },
   "devDependencies": {
+    "@testing-library/react": "^11.2.6",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
     "@types/react-redux": "^7.1.16",
@@ -42,7 +40,9 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.4.2",
     "prettier": "^2.2.1",
+    "react": "^17.0.2",
     "react-app-rewired": "^2.1.8",
+    "react-redux": "^7.2.3",
     "redux-mock-store": "^1.5.4"
   },
   "scripts": {

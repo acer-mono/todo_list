@@ -1,5 +1,6 @@
-import { Item, ITEM_STATE_FILTER_TYPE } from './reducers/todos';
+import { Item } from './reducers/todos';
 import { REQUEST_STATUS } from './actions';
+import { ITEM_STATE_FILTER_TYPE } from './reducers/filter';
 
 export enum ACTION_TYPES {
   REMOVE,

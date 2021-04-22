@@ -1,5 +1,7 @@
-import { Error, Item, ITEM_STATE_FILTER, ITEM_STATE_FILTER_TYPE, Store } from './reducers/todos';
+import { Error, Item } from './reducers/todos';
 import { createSelector } from 'reselect';
+import { ITEM_STATE_FILTER_TYPE, ITEM_STATE_FILTER } from './reducers/filter';
+import { Store } from './store';
 
 export function selectListByItemState(list: Item[], itemState: ITEM_STATE_FILTER_TYPE): Item[] {
   switch (itemState) {
@@ -17,20 +19,20 @@ export function selectListByFilterString(list: Item[], filterString: string): It
 }
 
 export const selectListByFilter = createSelector(
-  (state: Store) => state.list,
-  (state: Store) => state.filterParams.category,
-  (state: Store) => state.filterParams.searchString,
+  (state: Store) => state.todo.list,
+  (state: Store) => state.filter.category,
+  (state: Store) => state.filter.searchString,
   (list: Item[], category: ITEM_STATE_FILTER_TYPE, filterString: string) =>
     selectListByItemState(selectListByFilterString(list, filterString), category)
 );
 
 export const selectErrors = createSelector(
-  (state: Store) => state.errors,
+  (state: Store) => state.todo.errors,
   (errors: Error[]) => errors
 );
 
 export const selectItemsCount = createSelector(
-  (state: Store) => state.list,
+  (state: Store) => state.todo.list,
   (list: Item[]) => ({
     [ITEM_STATE_FILTER.ALL]: list.length,
     [ITEM_STATE_FILTER.DONE]: selectListByItemState(list, ITEM_STATE_FILTER.DONE).length,
@@ -39,6 +41,6 @@ export const selectItemsCount = createSelector(
 );
 
 export const selectListTitles = createSelector(
-  (state: Store) => state.list,
+  (state: Store) => state.todo.list,
   (list: Item[]): string[] => list.map(el => el.title)
 );

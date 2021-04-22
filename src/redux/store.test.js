@@ -1,5 +1,6 @@
-import { ITEM_STATE_FILTER, reducer } from './reducers/todos';
+import { rootReducer } from './store';
 import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
+import { ITEM_STATE_FILTER } from './reducers/filter';
 import { ACTION_TYPES } from './actionTypes';
 import fetchMock from 'fetch-mock';
 import { makeTestStore } from '../setupTests';
@@ -18,7 +19,7 @@ import {
   removeElement
 } from './actions';
 
-describe('reducer test', () => {
+describe('root reducer test', () => {
   let items = null;
   let state = null;
   beforeEach(() => {
@@ -28,55 +29,59 @@ describe('reducer test', () => {
       { id: '2', title: 'last', isChecked: false }
     ];
     state = {
-      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
-      list: items,
-      errors: []
+      filter: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
   });
 
   test('remove existing item from list', () => {
     const removeItem = items[0];
     const action = { type: ACTION_TYPES.REMOVE, payload: { id: removeItem.id } };
-    const newItems = reducer(state, action);
-    expect(newItems.list).not.toEqual(items);
-    expect(newItems.list).not.toContain(removeItem);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list).not.toEqual(items);
+    expect(newItems.todo.list).not.toContain(removeItem);
   });
 
   test('remove not existing item from list', () => {
     const action = { type: ACTION_TYPES.REMOVE, payload: { id: '1000' } };
-    const newItems = reducer(state, action);
-    expect(newItems.list).toEqual(items);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list).toEqual(items);
   });
 
   test('create new item', () => {
     const newItem = { id: '3', name: 'lastLast', isDone: false };
     const action = { type: ACTION_TYPES.CREATE, payload: { item: newItem } };
-    const newItems = reducer(state, action);
-    expect(newItems.list).toContain(newItem);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list).toContain(newItem);
   });
 
   test('pass wrong action title', () => {
     const action = { type: 'credcdcdcdate' };
-    const newItems = reducer(state, action);
-    expect(newItems.list).toEqual(items);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list).toEqual(items);
   });
 
   test('remove all errors', () => {
     state = {
-      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
-      list: items,
-      errors: ['1', '2']
+      filter: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
+      todo: {
+        list: items,
+        errors: ['1', '2']
+      }
     };
     const action = { type: ACTION_TYPES.CLEAR_ERRORS, payload: {} };
-    const newItems = reducer(state, action);
-    expect(newItems.errors).toHaveLength(0);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.errors).toHaveLength(0);
   });
 
   test('add new error', () => {
     const action = { type: ACTION_TYPES.ADD_ERROR, payload: { error: '1' } };
-    const newItems = reducer(state, action);
-    expect(newItems.errors).toHaveLength(1);
-    expect(newItems.errors).toMatchObject([{ id: expect.any(String), title: '1' }]);
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.errors).toHaveLength(1);
+    expect(newItems.todo.errors).toMatchObject([{ id: expect.any(String), title: '1' }]);
   });
 });
 
@@ -92,8 +97,11 @@ describe('selectListByFilter tests', () => {
 
   test('get done elements', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.DONE, searchString: '' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.DONE, searchString: '' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(1);
@@ -102,8 +110,11 @@ describe('selectListByFilter tests', () => {
 
   test('get all elements', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.ALL, searchString: '' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(3);
@@ -112,8 +123,11 @@ describe('selectListByFilter tests', () => {
 
   test('get elements in progress', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(2);
@@ -122,8 +136,11 @@ describe('selectListByFilter tests', () => {
 
   test('get done element with active filter', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.DONE, searchString: 'first' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.DONE, searchString: 'first' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(1);
@@ -132,8 +149,11 @@ describe('selectListByFilter tests', () => {
 
   test('get element in progress with active filter', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: 'second' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: 'second' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(1);
@@ -142,8 +162,11 @@ describe('selectListByFilter tests', () => {
 
   test('try to find not existent element', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const newItems = selectListByFilter(state);
     expect(newItems).toHaveLength(0);
@@ -162,8 +185,11 @@ describe('selectItemsCount tests', () => {
 
   test('return correct counts of items', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const counts = selectItemsCount(state);
     expect(counts[ITEM_STATE_FILTER.ALL]).toBe(3);
@@ -184,8 +210,11 @@ describe('selectListTitles tests', () => {
 
   test('return correct counts of items', () => {
     const state = {
-      filterParams: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
-      list: items
+      filter: { category: ITEM_STATE_FILTER.NOT_DONE, searchString: '12' },
+      todo: {
+        list: items,
+        errors: []
+      }
     };
     const titles = selectListTitles(state);
     expect(titles).toEqual(['first', 'second', 'last']);

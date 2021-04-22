@@ -3,7 +3,8 @@ import { fireEvent, screen } from '@testing-library/react';
 import { SearchPanel } from './SearchPanel';
 import { makeTestStore, testRender } from '../../setupTests';
 import { ACTION_TYPES } from '../../redux/actionTypes';
-import { initialState, ITEM_STATE_FILTER } from '../../redux/reducers/todos';
+import { initialState } from '../../redux/store';
+import { ITEM_STATE_FILTER } from '../../redux/reducers/filter';
 
 describe('SearchPanel tests', () => {
   const idPrefix = 'option';
@@ -43,7 +44,7 @@ describe('SearchPanel tests', () => {
         title: 'World'
       }
     ];
-    const state = { ...initialState, list };
+    const state = { ...initialState, todo: { list } };
     const store = makeTestStore({ initialState: state, useMockStore: true });
     testRender(<SearchPanel filterValues={ITEM_STATE_FILTER} />, { store });
     const componentAll = screen.getByTestId(idPrefix + ITEM_STATE_FILTER.ALL);

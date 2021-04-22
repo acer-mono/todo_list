@@ -1,7 +1,7 @@
 import { CreateForm } from '../components/CreateForm/CreateForm';
-import { ITEM_STATE_FILTER } from '../redux/reducers/todos';
 import { SearchPanel } from '../components/SearchPanel/SearchPanel';
 import { List } from '../components/List/List';
+import { ITEM_STATE_FILTER } from '../redux/reducers/filter';
 import React from 'react';
 import pin from './pin.png';
 

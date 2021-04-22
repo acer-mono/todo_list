@@ -2,9 +2,9 @@ import { List } from './List';
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { ACTION_TYPES } from '../../redux/actionTypes';
-import { initialState } from '../../redux/reducers/todos';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
+import { initialState } from '../../redux/store';
 
 describe('List tests', () => {
   test('pass two items', () => {
@@ -12,7 +12,10 @@ describe('List tests', () => {
       { id: 0, title: 'hello', isChecked: false },
       { id: 1, title: 'hello', isChecked: false }
     ];
-    const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
+    const store = makeTestStore({
+      initialState: { ...initialState, todo: { list } },
+      useMockStore: true
+    });
     testRender(<List />, { store });
     const elements = screen.getAllByTestId('list-item');
     expect(elements).toHaveLength(list.length);
@@ -30,7 +33,10 @@ describe('List tests', () => {
       { id: 0, title: 'hello', isChecked: false },
       { id: 1, title: 'hello', isChecked: false }
     ];
-    const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
+    const store = makeTestStore({
+      initialState: { ...initialState, todo: { list } },
+      useMockStore: true
+    });
     testRender(<List />, { store });
     const elements = screen.getAllByTestId('remove-button');
     elements.forEach(el => {
@@ -47,7 +53,10 @@ describe('List tests', () => {
       { id: 0, title: 'hello', isChecked: false },
       { id: 1, title: 'hello', isChecked: true }
     ];
-    const store = makeTestStore({ initialState: { ...initialState, list }, useMockStore: true });
+    const store = makeTestStore({
+      initialState: { ...initialState, todo: { list } },
+      useMockStore: true
+    });
     testRender(<List />, { store });
     const elements = screen.getAllByTestId('item-checkbox');
     elements.forEach(el => {

@@ -4,11 +4,12 @@ import { CreateForm } from './CreateForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
+import { initialState } from '../../redux/store';
 
 describe('CreateForm tests', () => {
   let store;
   beforeEach(() => {
-    store = makeTestStore({ useMockStore: true });
+    store = makeTestStore({ initialState, useMockStore: true });
   });
 
   test('create item with valid title', () => {

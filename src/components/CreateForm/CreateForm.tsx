@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addElement, REQUEST_STATUS, setRequestStatus } from '../../redux/actions';
-import { Store } from '../../redux/reducers/todos';
 import './CreateForm.css';
+import { Store } from '../../redux/store';
 
 export const CreateForm = () => {
   const [name, setName] = useState('');
-  const requestState = useSelector((state: Store) => state.requestStatus);
+  const requestState = useSelector((state: Store) => state.todo.requestStatus);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import { EditListItem } from './EditListItemForm';
 import { ACTION_TYPES } from '../../redux/actionTypes';
 import { makeTestStore, testRender } from '../../setupTests';
 import { REQUEST_STATUS } from '../../redux/actions';
+import { initialState } from '../../redux/store';
 
 const item = {
   id: '123',
@@ -13,7 +14,7 @@ const item = {
 describe('EditListItemForm tests', () => {
   let store;
   beforeEach(() => {
-    store = makeTestStore({ useMockStore: true });
+    store = makeTestStore({ initialState, useMockStore: true });
   });
 
   test('form contains input with passed value and button', () => {

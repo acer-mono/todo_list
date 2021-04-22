@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { reducer } from './redux/reducers/todos';
+import rootReducer from './redux/reducers';
 import thunkMiddleware from 'redux-thunk';
 import configureStore from 'redux-mock-store';
 
@@ -21,7 +21,7 @@ export function makeTestStore({ initialState, useMockStore = false } = {}) {
   if (useMockStore) {
     store = mockStore(initialState);
   } else {
-    store = createStore(reducer, initialState);
+    store = createStore(rootReducer, initialState);
   }
   const origDispatch = store.dispatch;
   store.dispatch = jest.fn(origDispatch);
