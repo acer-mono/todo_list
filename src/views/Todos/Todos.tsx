@@ -1,17 +1,22 @@
-import { CreateForm } from '../components/CreateForm/CreateForm';
-import { SearchPanel } from '../components/SearchPanel/SearchPanel';
-import { List } from '../components/List/List';
-import { ITEM_STATE_FILTER } from '../redux/reducers/filter';
+import { CreateForm } from '../../components/CreateForm/CreateForm';
+import { SearchPanel } from '../../components/SearchPanel/SearchPanel';
+import { List } from '../../components/List/List';
+import { ITEM_STATE_FILTER } from '../../redux/reducers/filter';
 import React from 'react';
 import { FaSignOutAlt } from 'react-icons/all';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/actions';
+import { logout } from '../../redux/actions';
 
 export const Todos = () => {
   const dispatch = useDispatch();
+
+  function logoutHandle() {
+    dispatch(logout());
+  }
+
   return (
     <div className="todo-wrapper">
-      <button className="button-close" onClick={() => dispatch(logout())}>
+      <button className="button-close" onClick={logoutHandle}>
         <FaSignOutAlt />
       </button>
       <div className="content-main">

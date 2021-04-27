@@ -12,8 +12,7 @@ export enum ACTION_TYPES {
   ADD_ERROR,
   LOAD_MESSAGES,
   SET_REQUEST_STATUS,
-  LOGIN,
-  LOGOUT
+  SET_AUTH_STATUS
 }
 
 export type Action =
@@ -26,17 +25,13 @@ export type Action =
   | ActionAddError
   | ActionLoadMessages
   | ActionChangeRequestStatus
-  | ActionLogin
-  | ActionLogout;
+  | ActionSetAuthStatus;
 
-export type ActionLogin = {
-  type: typeof ACTION_TYPES.LOGIN;
-  payload: {};
-};
-
-export type ActionLogout = {
-  type: typeof ACTION_TYPES.LOGOUT;
-  payload: {};
+export type ActionSetAuthStatus = {
+  type: typeof ACTION_TYPES.SET_AUTH_STATUS;
+  payload: {
+    state: boolean;
+  };
 };
 
 export type ActionChangeRequestStatus = {

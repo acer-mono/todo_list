@@ -8,9 +8,8 @@ import {
   ActionEdit,
   ActionFilterChanged,
   ActionLoadMessages,
-  ActionLogin,
-  ActionLogout,
-  ActionRemove
+  ActionRemove,
+  ActionSetAuthStatus
 } from './actionTypes';
 import { Item } from './reducers/todos';
 import { AppDispatch } from '.';
@@ -75,14 +74,9 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
   }
 });
 
-export const setLogin = (): ActionLogin => ({
-  type: ACTION_TYPES.LOGIN,
-  payload: {}
-});
-
-export const setLogout = (): ActionLogout => ({
-  type: ACTION_TYPES.LOGOUT,
-  payload: {}
+export const setAuthStatus = (state: boolean): ActionSetAuthStatus => ({
+  type: ACTION_TYPES.SET_AUTH_STATUS,
+  payload: { state }
 });
 
 export const addElement = (title: string) => async (dispatch: AppDispatch) => {
@@ -142,9 +136,10 @@ export const initialAuthCheck = () => async (dispatch: AppDispatch) => {
   try {
     await api.auth.isAuth();
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
-    dispatch(setLogin());
+    dispatch(setAuthStatus(true));
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(setAuthStatus(false));
     dispatch(addError({ error: e.message }));
   }
 };
@@ -154,7 +149,7 @@ export const login = (login: string, password: string) => async (dispatch: AppDi
   try {
     await api.auth.login(login, password);
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
-    dispatch(setLogin());
+    dispatch(setAuthStatus(true));
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
     dispatch(addError({ error: e.message }));
@@ -166,7 +161,7 @@ export const logout = () => async (dispatch: AppDispatch) => {
   try {
     await api.auth.logout();
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
-    dispatch(setLogout());
+    dispatch(setAuthStatus(false));
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
     dispatch(addError({ error: e.message }));
