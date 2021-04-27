@@ -12,7 +12,6 @@ export const CreateForm = () => {
   useEffect(() => {
     if (requestState == REQUEST_STATUS.SUCCESS) {
       setName('');
-      console.log(requestState);
       dispatch(setRequestStatus(REQUEST_STATUS.IDLE));
     }
   }, [requestState]);
