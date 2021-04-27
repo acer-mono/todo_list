@@ -47,6 +47,21 @@ describe('EditListItemForm tests', () => {
     expect(closeItemHandler).toHaveBeenCalled();
   });
 
+  test('submit form with not valid title', () => {
+    const closeItemHandler = jest.fn();
+    const field = '';
+
+    testRender(<EditListItem item={item} closeItem={closeItemHandler} />, { store });
+    const form = screen.getByTestId('editForm');
+    const input = screen.getByTestId('edit-input');
+
+    fireEvent.input(input, { target: { value: field } });
+    expect(store.dispatch).not.toBeCalled();
+    fireEvent.submit(form);
+    expect(store.getActions().length).toEqual(0);
+    expect(closeItemHandler).toHaveBeenCalled();
+  });
+
   test('click on close button', () => {
     const closeItemHandler = jest.fn();
     const field = 'some new title';
