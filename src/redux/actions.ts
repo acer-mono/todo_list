@@ -160,3 +160,15 @@ export const login = (login: string, password: string) => async (dispatch: AppDi
     dispatch(addError({ error: e.message }));
   }
 };
+
+export const logout = () => async (dispatch: AppDispatch) => {
+  dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
+  try {
+    await api.auth.logout();
+    dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
+    dispatch(setLogout());
+  } catch (e) {
+    dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
+    dispatch(addError({ error: e.message }));
+  }
+};
