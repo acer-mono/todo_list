@@ -34,11 +34,20 @@
     color: #555555;
 }
 
-.pin {
+.button-close {
+    display: inline-flex;
     position: absolute;
     right: 0;
     top: 0;
-    width: 6rem;
+    margin: 1rem;
+    padding: 1rem;
+    outline: none;
+    border-radius: .2rem;
+    align-content: center;
+    font-size: 1.5rem;
+    color: rgb(243,8,32);
+    border: none;
+    background:  rgb(165,218,230);
 }
 
 .content-main {
