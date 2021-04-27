@@ -96,6 +96,36 @@ describe('root reducer test', () => {
     const newItems = rootReducer(state, action);
     expect(newItems.auth.state).toEqual(AUTH_STATE.FAILURE);
   });
+
+  test('set request status', () => {
+    const requestStatus = REQUEST_STATUS.SUCCESS;
+    const action = {
+      type: ACTION_TYPES.SET_REQUEST_STATUS,
+      payload: { requestStatus }
+    };
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.requestStatus).toEqual(requestStatus);
+  });
+
+  test('load messages', () => {
+    const list = [{ id: '1234', title: 'None', isChecked: true }];
+    const action = {
+      type: ACTION_TYPES.LOAD_MESSAGES,
+      payload: { list }
+    };
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list).toEqual(list);
+  });
+
+  test('edit messages', () => {
+    const item = { id: '0', title: 'firstEdit', isChecked: true };
+    const action = {
+      type: ACTION_TYPES.EDIT,
+      payload: { id: item.id, title: item.title, isChecked: item.isChecked }
+    };
+    const newItems = rootReducer(state, action);
+    expect(newItems.todo.list.find(el => el.id === item.id)).toEqual(item);
+  });
 });
 
 describe('selectListByFilter tests', () => {
