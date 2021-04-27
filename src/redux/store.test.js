@@ -2,7 +2,7 @@ import { rootReducer } from './';
 import { selectItemsCount, selectListByFilter, selectListTitles } from './selectors';
 import { ITEM_STATE_FILTER } from './reducers/filter';
 import { ACTION_TYPES } from './actionTypes';
-import { REQUEST_STATUS } from './actions';
+import { initialAuthCheck, login, logout, REQUEST_STATUS, setAuthStatus } from './actions';
 import fetchMock from 'fetch-mock';
 import { makeTestStore } from '../setupTests';
 import {
@@ -18,6 +18,7 @@ import {
   editElement,
   removeElement
 } from './actions';
+import { AUTH_STATE } from './reducers/auth';
 
 describe('root reducer test', () => {
   let items = null;
@@ -82,6 +83,18 @@ describe('root reducer test', () => {
     const newItems = rootReducer(state, action);
     expect(newItems.todo.errors).toHaveLength(1);
     expect(newItems.todo.errors).toMatchObject([{ id: expect.any(String), title: '1' }]);
+  });
+
+  test('set successful auth status', () => {
+    const action = { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: true } };
+    const newItems = rootReducer(state, action);
+    expect(newItems.auth.state).toEqual(AUTH_STATE.SUCCESS);
+  });
+
+  test('set failure auth status', () => {
+    const action = { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: false } };
+    const newItems = rootReducer(state, action);
+    expect(newItems.auth.state).toEqual(AUTH_STATE.FAILURE);
   });
 });
 
@@ -283,6 +296,15 @@ describe('actions tests', () => {
       payload
     };
     expect(addError(payload)).toEqual(expectedAction);
+  });
+
+  test('setAuthStatus', () => {
+    const state = false;
+    const expectedAction = {
+      type: ACTION_TYPES.SET_AUTH_STATUS,
+      payload: { state }
+    };
+    expect(setAuthStatus(state)).toEqual(expectedAction);
   });
 });
 
@@ -505,5 +527,176 @@ describe('removeElement tests', () => {
       { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
       { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
     ]);
+  });
+
+  describe('initialAuthCheck tests', () => {
+    afterEach(() => fetchMock.reset());
+
+    test('success', async () => {
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 200,
+          body: {}
+        },
+        {
+          method: 'GET'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(initialAuthCheck());
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.SUCCESS }
+        },
+        { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: true } }
+      ]);
+    });
+
+    test('failure', async () => {
+      const error = 'error';
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 403,
+          body: { error }
+        },
+        {
+          method: 'GET'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(initialAuthCheck());
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+        { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: false } },
+        { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+      ]);
+    });
+  });
+
+  describe('logout tests', () => {
+    afterEach(() => fetchMock.reset());
+
+    test('success', async () => {
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 200,
+          body: {}
+        },
+        {
+          method: 'DELETE'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(logout());
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.SUCCESS }
+        },
+        { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: false } }
+      ]);
+    });
+
+    test('failure', async () => {
+      const error = 'error';
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 403,
+          body: { error }
+        },
+        {
+          method: 'DELETE'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(logout());
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+        { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+      ]);
+    });
+  });
+
+  describe('login tests', () => {
+    afterEach(() => fetchMock.reset());
+    const username = '';
+    const password = '';
+
+    test('success', async () => {
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 200,
+          body: { username, password }
+        },
+        {
+          method: 'POST'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(login(username, password));
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.SUCCESS }
+        },
+        { type: ACTION_TYPES.SET_AUTH_STATUS, payload: { state: true } }
+      ]);
+    });
+
+    test('failure', async () => {
+      const error = 'error';
+      fetchMock.mock(
+        `http://localhost:3001/auth`,
+        {
+          status: 403,
+          body: { error }
+        },
+        {
+          method: 'POST'
+        }
+      );
+
+      const store = makeTestStore({ useMockStore: true });
+      await store.dispatch(login(username, password));
+      expect(store.getActions()).toEqual([
+        {
+          type: ACTION_TYPES.SET_REQUEST_STATUS,
+          payload: { requestStatus: REQUEST_STATUS.LOADING }
+        },
+        { type: ACTION_TYPES.SET_REQUEST_STATUS, payload: { requestStatus: REQUEST_STATUS.ERROR } },
+        { type: ACTION_TYPES.ADD_ERROR, payload: { error } }
+      ]);
+    });
   });
 });
