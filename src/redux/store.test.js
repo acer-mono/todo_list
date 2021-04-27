@@ -126,6 +126,26 @@ describe('root reducer test', () => {
     const newItems = rootReducer(state, action);
     expect(newItems.todo.list.find(el => el.id === item.id)).toEqual(item);
   });
+
+  test('edit messages when is checked undefined', () => {
+    const item = { id: '0', title: 'firstEdit' };
+    const action = {
+      type: ACTION_TYPES.EDIT,
+      payload: { id: item.id, title: item.title, isChecked: item.isChecked }
+    };
+    const newItem = rootReducer(state, action).todo.list.find(el => el.id === item.id);
+    expect(newItem.title).toEqual(item.title);
+  });
+
+  test('edit messages when title undefined', () => {
+    const item = { id: '0', isChecked: true };
+    const action = {
+      type: ACTION_TYPES.EDIT,
+      payload: { id: item.id, title: item.title, isChecked: item.isChecked }
+    };
+    const newItem = rootReducer(state, action).todo.list.find(el => el.id === item.id);
+    expect(newItem.isChecked).toEqual(item.isChecked);
+  });
 });
 
 describe('selectListByFilter tests', () => {
