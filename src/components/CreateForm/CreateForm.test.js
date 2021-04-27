@@ -12,18 +12,6 @@ describe('CreateForm tests', () => {
     store = makeTestStore({ initialState, useMockStore: true });
   });
 
-  test('set request status idle on render', () => {
-    initialState.todo.requestStatus = REQUEST_STATUS.SUCCESS;
-    store = makeTestStore({ initialState, useMockStore: true });
-
-    testRender(<CreateForm />, { store });
-
-    expect(store.getActions()[0]).toEqual({
-      type: ACTION_TYPES.SET_REQUEST_STATUS,
-      payload: { requestStatus: REQUEST_STATUS.IDLE }
-    });
-  });
-
   test('create item with valid title', () => {
     testRender(<CreateForm />, { store });
 
@@ -38,6 +26,18 @@ describe('CreateForm tests', () => {
     expect(store.getActions()[0]).toEqual({
       type: ACTION_TYPES.SET_REQUEST_STATUS,
       payload: { requestStatus: REQUEST_STATUS.LOADING }
+    });
+  });
+
+  test('set request status idle on render', () => {
+    initialState.todo.requestStatus = REQUEST_STATUS.SUCCESS;
+    store = makeTestStore({ initialState, useMockStore: true });
+
+    testRender(<CreateForm />, { store });
+
+    expect(store.getActions()[0]).toEqual({
+      type: ACTION_TYPES.SET_REQUEST_STATUS,
+      payload: { requestStatus: REQUEST_STATUS.IDLE }
     });
   });
 });
