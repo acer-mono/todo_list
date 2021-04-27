@@ -11,7 +11,9 @@ export enum ACTION_TYPES {
   CLEAR_ERRORS,
   ADD_ERROR,
   LOAD_MESSAGES,
-  SET_REQUEST_STATUS
+  SET_REQUEST_STATUS,
+  LOGIN,
+  LOGOUT
 }
 
 export type Action =
@@ -23,7 +25,19 @@ export type Action =
   | ActionClearErrors
   | ActionAddError
   | ActionLoadMessages
-  | ActionChangeRequestStatus;
+  | ActionChangeRequestStatus
+  | ActionLogin
+  | ActionLogout;
+
+export type ActionLogin = {
+  type: typeof ACTION_TYPES.LOGIN;
+  payload: {};
+};
+
+export type ActionLogout = {
+  type: typeof ACTION_TYPES.LOGOUT;
+  payload: {};
+};
 
 export type ActionChangeRequestStatus = {
   type: typeof ACTION_TYPES.SET_REQUEST_STATUS;

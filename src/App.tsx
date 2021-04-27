@@ -16,11 +16,12 @@ function App() {
   }, []);
 
   const isLoading = useSelector((store: Store) => store.todo.requestStatus);
+  const isAuth = useSelector((store: Store) => store.auth.state);
   return (
     <>
       <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/" component={Todos} />
+        {isAuth && <Route path="/" component={Todos} />}
+        {!isAuth && <Route path="/" component={Login} />}
       </Switch>
       <Alert delay={3000} />
       {isLoading === REQUEST_STATUS.LOADING && <Spinner />}

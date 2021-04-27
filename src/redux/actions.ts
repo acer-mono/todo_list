@@ -8,12 +8,14 @@ import {
   ActionEdit,
   ActionFilterChanged,
   ActionLoadMessages,
+  ActionLogin,
+  ActionLogout,
   ActionRemove
 } from './actionTypes';
 import { Item } from './reducers/todos';
 import { AppDispatch } from '.';
 import api from '../components/api';
-import { push } from 'connected-react-router';
+//import { push } from 'connected-react-router';
 
 export enum REQUEST_STATUS {
   IDLE,
@@ -73,6 +75,16 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
   }
 });
 
+export const setLogin = (): ActionLogin => ({
+  type: ACTION_TYPES.LOGIN,
+  payload: {}
+});
+
+export const setLogout = (): ActionLogout => ({
+  type: ACTION_TYPES.LOGOUT,
+  payload: {}
+});
+
 export const addElement = (title: string) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
   try {
@@ -130,10 +142,9 @@ export const initialAuthCheck = () => async (dispatch: AppDispatch) => {
   try {
     await api.auth.isAuth();
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
-    dispatch(push('/'));
+    dispatch(setLogin());
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
-    dispatch(push('/login'));
     dispatch(addError({ error: e.message }));
   }
 };
@@ -143,7 +154,7 @@ export const login = (login: string, password: string) => async (dispatch: AppDi
   try {
     await api.auth.login(login, password);
     dispatch(setRequestStatus(REQUEST_STATUS.SUCCESS));
-    dispatch(push('/'));
+    dispatch(setLogin());
   } catch (e) {
     dispatch(setRequestStatus(REQUEST_STATUS.ERROR));
     dispatch(addError({ error: e.message }));
