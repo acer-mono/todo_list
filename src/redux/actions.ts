@@ -7,6 +7,7 @@ import {
   ActionCreate,
   ActionEdit,
   ActionFilterChanged,
+  ActionInitialAuth,
   ActionLoadMessages,
   ActionRemove,
   ActionSetAuthStatus
@@ -14,8 +15,6 @@ import {
 import { Item } from './reducers/todos';
 import { AppDispatch } from '.';
 import api from '../components/api';
-
-//import { push } from 'connected-react-router';
 
 export enum REQUEST_STATUS {
   IDLE,
@@ -75,6 +74,10 @@ export const setRequestStatus = (status: REQUEST_STATUS): ActionChangeRequestSta
   }
 });
 
+export const initialAuthCheck = (): ActionInitialAuth => ({
+  type: ACTION_TYPES.INITIAL_AUTH
+});
+
 export const setAuthStatus = (state: boolean): ActionSetAuthStatus => ({
   type: ACTION_TYPES.SET_AUTH_STATUS,
   payload: { state }
@@ -132,6 +135,7 @@ export const removeElement = (id: string) => async (dispatch: AppDispatch) => {
   }
 };
 
+/*
 export const initialAuthCheck = () => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));
   try {
@@ -144,6 +148,7 @@ export const initialAuthCheck = () => async (dispatch: AppDispatch) => {
     dispatch(addError({ error: e.message }));
   }
 };
+ */
 
 export const login = (login: string, password: string) => async (dispatch: AppDispatch) => {
   dispatch(setRequestStatus(REQUEST_STATUS.LOADING));

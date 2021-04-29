@@ -1,10 +1,12 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createRootReducer from './reducers';
+import rootSaga from './sagas';
 import { todoInitialState, TodoSlice } from './reducers/todos';
 import { filterInitialState, FilterSlice } from './reducers/filter';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router';
+import createSagaMiddleware from 'redux-saga';
 import { authInitialState, AuthSlice } from './reducers/auth';
 
 export const history = createBrowserHistory();
@@ -23,6 +25,13 @@ export const initialState: Store = {
 
 export const rootReducer = createRootReducer(history);
 
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, routerMiddleware(history)));
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunkMiddleware, routerMiddleware(history), sagaMiddleware)
+);
+
+sagaMiddleware.run(rootSaga);
 export type AppDispatch = typeof store.dispatch;
 export default store;

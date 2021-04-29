@@ -2,18 +2,19 @@ import { Item } from './reducers/todos';
 import { REQUEST_STATUS } from './actions';
 import { ITEM_STATE_FILTER_TYPE } from './reducers/filter';
 
-export enum ACTION_TYPES {
-  REMOVE,
-  EDIT,
-  CREATE,
-  FILTER_CHANGED,
-  CATEGORY_CHANGED,
-  CLEAR_ERRORS,
-  ADD_ERROR,
-  LOAD_MESSAGES,
-  SET_REQUEST_STATUS,
-  SET_AUTH_STATUS
-}
+export const ACTION_TYPES = {
+  REMOVE: 'remove',
+  EDIT: 'edit',
+  CREATE: 'create',
+  FILTER_CHANGED: 'filterChanged',
+  CATEGORY_CHANGED: 'categoryChanged',
+  CLEAR_ERRORS: 'clearErrors',
+  ADD_ERROR: 'addError',
+  LOAD_MESSAGES: 'loadMessages',
+  SET_REQUEST_STATUS: 'setRequestStatus',
+  SET_AUTH_STATUS: 'setAuthStatus',
+  INITIAL_AUTH: 'initialAuth'
+} as const;
 
 export type Action =
   | ActionRemove
@@ -25,7 +26,12 @@ export type Action =
   | ActionAddError
   | ActionLoadMessages
   | ActionChangeRequestStatus
-  | ActionSetAuthStatus;
+  | ActionSetAuthStatus
+  | ActionInitialAuth;
+
+export type ActionInitialAuth = {
+  type: typeof ACTION_TYPES.INITIAL_AUTH;
+};
 
 export type ActionSetAuthStatus = {
   type: typeof ACTION_TYPES.SET_AUTH_STATUS;
